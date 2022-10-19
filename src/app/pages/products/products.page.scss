@@ -1,9 +1,9 @@
-.cssContainer{
+.cssContainer {
     width: 96%;
     margin: 0px auto;
 }
 // row 1
-.cssCategories{
+.cssCategories {
     height: 106px;
     width: 100%;
     display: flex;
@@ -11,116 +11,128 @@
     overflow-x: scroll;
     overflow-y: hidden;
 }
-.cssCategories .cssImg{
-    height: 75px; width: 75px;
+.cssCategories .cssImg {
+    height: 75px;
+    width: 75px;
     border-radius: 50%;
     margin: 2px 8px;
-    background-position: center; 
-    background-repeat: no-repeat; 
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: contain;
 }
-.cssCategories .cssLibel{
+.cssCategories .cssLibel {
     text-align: center;
     font-size: 13px;
 }
-.cssQuantity{
+.cssQuantity {
     display: flex;
     justify-content: space-between;
     width: 100% !important;
-    height: 50px !important;
+    height: 35px !important;
     background: #ff4747 !important;
     border-radius: 4px;
-    margin: 15px 0px !important;
+    margin: 5px 0px !important;
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
-.cssQuantity .cssAddMinus{
+.cssQuantity .cssAddMinus {
     width: 30%;
     color: #fff;
     font-size: 20px;
     text-align: center;
-    padding: 10px 0px 14px 0px;
+    // padding: 10px 0px 14px 0px;
     cursor: pointer;
 }
-.cssQuantity .cssQty{
+.cssQuantity .cssQty {
     width: 40%;
-    font-size: 34px;
+    font-size: 21px;
     text-align: center;
     font-weight: 700;
     color: #ff4747;
     background: #fff !important;
     border: 1px solid #ff4747;
 }
+
+
+
 // row 2
 // _new row2
-.cssCard{
+.cssCard {
     width: 100% !important;
-    height: 300px !important;
+    height: 350px !important;
     margin: 0px !important;
-    background: rgb(255, 245, 245) !important;
+    background: rgb(255, 255, 255) !important;
     border-radius: 6px !important;
     cursor: pointer;
 }
-.cssCard .cssImg{
+.cssCard .cssImg {
     // width: 120px; height: 120px;
-    width: 90%; height: 50%;
-    padding: 5px; margin: 8px auto;
+    width: 90%;
+    height: 50%;
+    padding: 5px;
+    margin: 8px auto;
     background: #fff !important;
     border-radius: 6px;
 }
 
-.cssImg img{
+.cssImg img {
     width: 100%;
     height: 100%;
 }
 
-.cssCard .cssHeaderCard{
+.cssCard .cssHeaderCard {
     padding: 5px;
     position: relative;
     top: -20px;
 }
-.cssCard .cssTitleCrd{
+.cssCard .cssTitleCrd {
     color: #333 !important;
     font-size: 15px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.cssPrix{
+.cssPrix {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 35px;
 }
-.cssPrixInitial{
+.cssPrixInitial {
     margin: 8px 0px 6px 0px;
     font-size: 8px;
     color: #444;
 }
-.cssPrixInitial span{
+.cssPrixInitial span {
     font-size: 22px;
 }
-.cssPrixFinal{
+.cssPrixFinal {
     margin-top: 10px;
     margin-right: 4px;
     font-size: 8px;
     color: #666;
 }
-.cssPrixFinal span{
+.cssPrixFinal span {
     font-size: 15px;
     text-decoration: line-through;
 }
 
-.cssPromotion{
-    width: 50px; height: 20px;
+.cssPromotion {
+    width: 50px;
+    height: 20px;
     border-radius: 10px;
     position: relative;
-    top: -34px; left: -14px;
+    top: -34px;
+    left: -14px;
     background: #ff4747;
     color: #fff;
     text-align: center;
 }
-.cssBtnDetail{
+.cssBtnDetail {
     width: 90% !important;
     margin: 5px auto !important;
     margin-top: 2px !important;
 }
-ion-button{
+ion-button {
     width: 100% !important;
     --color: #fff;
     font-size: 15px !important;
@@ -152,7 +164,7 @@ ion-button{
 //     width: 65%;
 //     padding: 6px;
 //     background-color: #DC4E41 !important;
-    
+
 // }
 // .cssCard .cssTitleCrd{
 //     color: #fff !important;
@@ -197,62 +209,65 @@ ion-button{
 //     border-radius: 10px;
 // }
 
-
-
 @media only screen and (max-width: 362px) {
-    .cssQuantity{
-        height: 40px !important;
+    .cssQuantity {
+        height: 32px !important;
         border-radius: 4px;
         margin: 10px 0px !important;
     }
-    .cssQuantity .cssAddMinus{
+    .cssQuantity .cssAddMinus {
         font-size: 17px;
         text-align: center;
         padding: 7px 0px;
         cursor: pointer;
     }
-    .cssQuantity .cssQty{
+    .cssQuantity .cssQty {
         font-size: 18px;
     }
-    .cssQuantity .cssQty span{
+    .cssQuantity .cssQty span {
         font-size: 26px;
     }
-    .cssCard{
-        height: 260px !important;
+    .cssCard {
+        height: 300px !important;
     }
-    
-    .cssCard .cssHeaderCard{
+
+    .cssCard .cssHeaderCard {
         position: relative;
         top: -26px;
     }
-    .cssCard .cssTitleCrd{
+    .cssCard .cssTitleCrd {
         font-size: 13px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
-    .cssPrixInitial{
+    .cssPrixInitial {
         margin: 6px 0px;
         font-size: 8px;
     }
-    .cssPrixInitial span{
+    .cssPrixInitial span {
         font-size: 18px;
     }
-    .cssPrixFinal{
+    .cssPrixFinal {
         margin-top: 10px;
         font-size: 8px;
     }
-    .cssPrixFinal span{
+    .cssPrixFinal span {
         font-size: 13px;
     }
-    
-    .cssPromotion{
-        width: 46px; height: 18px;
+
+    .cssPromotion {
+        width: 46px;
+        height: 18px;
         border-radius: 9px;
         position: relative;
-        top: -32px; left: -14px;
+        top: -32px;
+        left: -14px;
         font-size: 13px;
         font-weight: 600;
     }
 
-    ion-button{
+    ion-button {
         font-size: 13px !important;
     }
 
@@ -265,7 +280,7 @@ ion-button{
     // .cssCard .cssTitleCrd{
     //     font-size: 15px;
     // }
-    
+
     // .cssPrixInitial{
     //     font-size: 15px;
     // }
@@ -284,11 +299,18 @@ ion-button{
     //     font-size: 13px;
     // }
 
-
     // ion-button{
     //     height: 30px !important;
     //     margin-top: 0px;
     //     font-size: 15px;
     //     --border-radius: 4px !important;
     // }
+}
+
+
+.grey_back{
+    background: #c0bebe !important;
+}
+.grey{
+    background: #ff4747 !important;
 }

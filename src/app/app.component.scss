@@ -13,23 +13,23 @@
 }
 
 .cssVersion{
-    bottom: 20px;
+    margin: 40px 10px;
     text-align: center;
-    margin-right: 70px;
+    // margin-right: 70px;
 }
-.cssVersion img{
-    width: 140px;
+.cssVersion img{ 
+    width: 110px;
     height: auto;
 }
 .cssVersion .cssV{
     font-size: 12px;
     font-weight: 600;
-    color: #FF2442;
+    color: #fe2400;
 }
 
 // ---
 .bgColorProfi{ 
-    background-color: #FF2442;
+    background-color: #fe2400;
 }
 .bgColorProfi .profil{
     display: flex;

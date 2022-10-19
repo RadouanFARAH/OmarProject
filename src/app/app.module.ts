@@ -16,12 +16,14 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { TokeninterseptService } from './interseptors/tokenintersept.service';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 import { IonicStorageModule, Storage } from '@ionic/storage-angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Printer } from '@awesome-cordova-plugins/printer/ngx';
 
 export function jwtOptionsFactory(storage) {
   return {
@@ -46,9 +48,12 @@ export function jwtOptionsFactory(storage) {
     { provide: HTTP_INTERCEPTORS, useClass: TokeninterseptService, multi: true },
     SplashScreen,
     StatusBar,
-    CallNumber
+    CallNumber,
+    Geolocation,
+    Printer
   ],
   bootstrap: [AppComponent],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class AppModule {

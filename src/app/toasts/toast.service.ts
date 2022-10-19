@@ -21,7 +21,7 @@ export class ToastService {
     let text = message?message:'حدث خطأ ما ، يرجى المحاولة مرة أخرى لاحقًا'
     const toast = await this.toastCtrl.create({
       message:text,
-      duration,
+      duration:2000,
       position: 'middle',
       cssClass: "failedtoastclass"
     });

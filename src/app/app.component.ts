@@ -26,12 +26,10 @@ export class AppComponent {
     })
 
     this.userService.name.subscribe((n) => {
-      console.log("name 0:", this.name);
 
       this.name = n
     })
     this.userService.role.subscribe((n) => {
-      console.log("name 0:", this.role);
 
       this.role = n
     })
@@ -50,13 +48,11 @@ export class AppComponent {
   }
 
   async ngOnInit() {
-    console.log("name 1:", this.name);
     this.userService.name.subscribe((n) => {
       this.name = n
     })
   }
   ionViewWillEnter() {
-    console.log("name 2:", this.name);
 
     this.userService.name.subscribe((n) => {
       this.name = n
@@ -135,8 +131,6 @@ export class AppComponent {
         }
       })
       this.storage.get('visited').then((isVisited) => {
-        console.log('Visited :', isVisited);
-
         if (!isVisited) {
           this.router.navigate(['/logaccount']).then(() => {
             this.storage.set('visited', true)

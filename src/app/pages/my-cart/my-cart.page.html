@@ -11,60 +11,86 @@
 </ion-header>
 
 <ion-content class="bgInterface2">
-  <ion-grid class="ion-no-padding">
 
-    <div class="cssHeight">
-      <ion-row *ngFor="let d of data;  index as i">
-        <ion-col class="ion-no-padding">
-          <div class="cssProduct">
-            <div class="cssImg">
-              <img [src]="url+'/images/image_'+d.code+'.png'" alt="@youb">
-            </div>
-            <div class="cssInfos">
-              <div class="cssName tajawal-Medium">{{d.nom}}</div>
-              <div class="cssPrixT">
-                <div class="cssPrix">
-                  <span>{{(d.special?d.prixspecial:d.prixfinal +d.special?0:d.deliveryPrice)*d.quantite}}</span> درهم
-                </div>
-                <div class="cssPrix">
-                  <span>{{d.point_c*d.quantite}}</span> نقطة
-                </div>
+
+  <div class="cssHeight">
+    <ion-spinner *ngIf="showAwait"></ion-spinner>
+    <ion-row *ngFor="let d of data;  index as i">
+      <ion-col class="ion-no-padding">
+
+        <div class="cssProduct">
+          <div class="cssImg">
+            <img [src]="url+'/images/image_'+d.code+'.png'" height="100px" alt="error">
+          </div>
+          <div class="cssInfos">
+            <div class="cssName threeDots tajawal-Medium">{{d.nom}}</div>
+            <div class="cssPrixT">
+              <div class="cssPrix">
+                <span class="titlePrice">الثمن:</span>
+                <span>{{d.special?(d.prixspecial*d.quantite).toFixed(2):(d.prixfinal*d.quantite).toFixed(2)}}</span>
+                درهم
               </div>
-              <div class="cssPrixT">
+              <div class="cssPrix">
+                <span class="titlePrice">الربح:</span> <span style="color: rgb(61, 212, 41);">{{d.point_c*d.quantite}}</span> نقطة
+                <span style="color: rgb(212, 52, 41);">{{d.point_v*d.quantite}}</span>.
+              </div>
+              <!-- <div class="cssPrix">
+                    <span class="titlePrice">التوصيل:</span> <span>{{d.deliveryPrice}}</span> درهم
+                  </div> -->
+              <div style="    display: grid;
+              grid-gap: 5%;
+              grid-template-columns: 48% 39%;">
                 <div class="cssQuantity">
+                  <div [ngClass]="{'cssAddMinus':true, 'grey_back':enableToOrder, 'grey':!enableToOrder}"  (click)="addQty(i,d)">
+                    <fa-icon icon="plus"></fa-icon>
+                  </div>
+                  <div class="cssQty">
+                    {{d.quantite}}
+                  </div>
                   <div class="cssAddMinus" (click)="minusQty(i)">
                     <fa-icon icon="minus"></fa-icon>
                   </div>
-                  <!-- <div class="cssQty" *ngIf="d.quantite > 0? d.quantite : 1"> -->
-                  <div class="cssQty">
-                    {{d.quantite}}
-                    <!-- <span *ngIf="qte > 0? qte : 1">{{qte}}</span> -->
-                  </div>
-                  <div class="cssAddMinus" (click)="addQty(i)">
-                    <fa-icon icon="plus"></fa-icon>
-                  </div>
                 </div>
-
-                <div class="cssDelete" (click)="removeProductFromOrder(i)">
-                  <div class="tajawal-Medium cssTrashBtn">
-                    <fa-icon icon="trash-alt"></fa-icon>
-                    حذف المنتج
+                <div class="cssPrixT">
+                  <div class="cssDelete" (click)="removeProductFromOrder(i)">
+                    <div class="tajawal-Medium cssTrashBtn">
+                      <fa-icon icon="trash-alt"></fa-icon>
+                      حذف
+                    </div>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
-        </ion-col>
-      </ion-row>
-    </div>
-
-    <ion-row>
-      <ion-col>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-grid>
+      <ion-row>
         <div class="cssS">
-          <div class="cssSome tajawal-Boldd">المجموع</div>
-          <div class="cssSomeValue">
-            <div class="cssDhs">
+          <!-- <div class="cssSome tajawal-Boldd">المجموع :</div> -->
+          <div class="cssSomeValue" *ngIf="show">
+            <div class="price_total tajawal-Boldd">
+              <div style="font-size: 13px;">
+                <div class="sales_taxe grided_in_half"><span>إجمال المبيعات :</span> {{totalPriceSales.toFixed(2)}} درهم</div>
+                <div *ngIf="percent!==0" class="sales_taxe grided_in_half"><span>ضريبة المبيعات :</span> {{(totalPriceSales * (percent?percent: 5)) / 100}} درهم</div>
+                <div   class="delivery"><span>التوصيل :</span> <span *ngIf="isOff" style="text-decoration: line-through;">{{delivery?delivery:0}} درهم</span> {{delivery?totalPriceSales>max?(delivery-delivery*off/100):delivery : 0}} درهم</div>
+                <div  *ngIf="app_cost!==0" class="app_cost grided_in_half"><span> F.APP :</span> {{app_cost? app_cost: 2}} درهم</div>
+              
+                <div style="font-size: 11px;color: grey;margin-top: 10px;">
+                  <mark *ngIf="off!==100">خصم {{off}} بالمئة للتوصيل على طلبية أكبر من {{max}} درهم</mark>
+                  <mark *ngIf="off==100">التوصيل مجاني على كل طلبية تفوق {{max}} درهم</mark>
+                </div>
+              </div>
+              <hr>
+              <div style="background: white;padding: 10px;border-radius: 5px;    box-shadow: 0px 0px 5px;">
+                <div class="total_pr grided_in_half"><span>المجموع :</span> {{totalPrice.toFixed(2)}} درهم</div>
+                <div class="total_po grided_in_half"><span>الربح الإجمالي :</span> {{totalPoints}} نقطة</div>
+              </div>
+            </div>
+       
+     
+            <!-- <div class="cssDhs">
               <p class="cssValue">{{totalPrice.toFixed(2)}}</p>
               <p class="cssUnit">درهم</p>
             </div>
@@ -75,25 +101,31 @@
             <div class="cssDhs">
               <p class="cssValue">{{app_cost}}<span>درهم</span></p>
               <p class="cssUnit">لمستحقات التطبيق</p>
-            </div>
+            </div> -->
           </div>
+          <div class="tajawal-Boldd" *ngIf="!show">
+            <p style="text-align: center">السلة فارغة</p>
+          </div>
+          <ion-button [disabled]="!show"
+            class="tajawal-Boldd animate__animated animate__zoomIn animate__delay-1s" (click)="sendOrder()">
+            طلب المنتوجات
+          </ion-button>
+
         </div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button [disabled]="totalPrice<=2" class="tajawal-Boldd animate__animated animate__zoomIn animate__delay-1s" (click)="sendOrder()">
-          طلب المنتوجات
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
+      </ion-row>
+
+    </ion-grid>
+
+  </div>
+
+
 
   <!-- alert error && success -->
   <div class="alerte" *ngIf="showSuccessAlerte">
     <div class="box2">
       <div class="successImg">
-        <img src="../../../assets/images/successAlert1.gif" alt="@youb" draggable="false">
+        <img src="../../../assets/images/successAlert1.gif" alt="error" draggable="false">
       </div>
       <div class="message">
         <p class="message_content tajawal-Medium">

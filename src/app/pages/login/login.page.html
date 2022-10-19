@@ -3,7 +3,7 @@
     <div class="cssContainer">
       <ion-row>
         <ion-col>
-          <img src="../../../assets/images/logo/logo.png" alt="@youb" class="cssLogo" draggable="false">
+          <img src="../../../assets/images/logo/logo.png" alt="error" class="cssLogo" draggable="false">
         </ion-col>
       </ion-row>
       <ion-row>
@@ -49,16 +49,12 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col>
-            <h3 (click)="changePassword()" class="tajawal-Bold link">تغيير كلمة السر؟</h3>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <h3 routerLink="/logcity"  class="tajawal-Bold link">  لازلت لا تملك حساب؟  <span style="color: rgb(88, 88, 223);cursor: pointer;">  إضغط هنا </span></h3>
-          </ion-col>
-        </ion-row>
-      </form>
+          <ion-col class="cssLink">
+            <h3 (click)="changePassword()" class="tajawal-Boldd">تغيير كلمة السر ؟</h3>
+            <h3 routerLink="/logcity" class="tajawal-Boldd">لازلت لا تملك حساب ؟<span>إضغط هنا</span></h3>
+      </ion-col>
+    </ion-row>
+  </form>
 
     </div>
   </ion-grid>
@@ -67,7 +63,7 @@
   <div class="alerte" *ngIf="showErrorAlerte">
     <div class="box2">
       <div class="successImg">
-        <img src="../../../assets/images/errorAlert1.gif" alt="@youb" draggable="false">
+        <img src="../../../assets/images/errorAlert1.gif" alt="error" draggable="false">
       </div>
       <div class="message">
         <p id="koho" class="message_content tajawal-Medium">

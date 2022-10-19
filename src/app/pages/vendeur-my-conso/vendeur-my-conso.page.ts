@@ -31,9 +31,7 @@ export class VendeurMyConsoPage implements OnInit {
       this.data = res
       for (let i = 0; i < this.data.length; i++) {
         this.data[i].jour = days[i]
-        console.log(typeof(this.data[i].day))
       }
-      console.log(this.data, this.day);
       this.dayChanged()
 
       // this.quartier = this.data[days.indexOf(new Date().toLocaleDateString('ar-EG-u-nu-latn', { weekday: 'long' }))].quartier
@@ -46,11 +44,9 @@ export class VendeurMyConsoPage implements OnInit {
   ionViewWillEnter() {
   }
   dayChanged() {
-    console.log(this.day, this.data[this.day]);
     this.quartier = this.data[this.day].quartier
     this.vendeur.getConsoByZone({ day: this.day, byzone: true, userID: this.userID }).subscribe((res: any) => {
       this.data2 = res;
-      console.log(this.data2);
     })
   }
 

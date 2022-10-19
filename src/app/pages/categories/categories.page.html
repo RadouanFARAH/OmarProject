@@ -8,7 +8,7 @@
         <fa-icon icon="shopping-basket"></fa-icon>
         <ion-badge *ngIf="commandeNum > 0">{{commandeNum}}</ion-badge>
       </span>
-      الفئات
+      <!-- الفئات -->
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -19,111 +19,71 @@
   <div class="cssSlider">
     <ion-slides pager="true" [options]="slideOpts">
       <ion-slide *ngFor="let img of imgsSlider" [style.background-image]="'url('+ img +')'">
-        <!-- <img [src]="img" alt="@youb"> -->
+        <!-- <img [src]="img" alt="error"> -->
       </ion-slide>
     </ion-slides>
   </div>
 
   <ion-grid class="cssContainer">
 
-    <!-- <ion-row style="margin-bottom: 4px !important;">
-      <ion-col size="12" [routerLink]="['/products', {id:2}]">
+    <ion-row style="margin-bottom: 4px !important;">
+      <ion-col size="12" class="ion-no-padding">
         <div class="cssOffre">
           <div class="cssContentOffre">
-            <div class="cssTitle tajawal-Bold">عروض اليوم</div>
-            <div class="cssClock">
+            <div class="cssTitle tajawal-Bold">الشراء المتظم</div>
+            <div class="cssExpired tajawal-Bold" *ngIf="!stillOffred">لم يعد متاح اليوم</div>
+            <div class="cssClock" *ngIf="stillOffred">
               <div>
-                <div class="cssValue">17</div>
+                <div class="cssLibel tajawal-Bold">الوقت المتبقي</div>
+              </div>
+              <div>
+                <div class="cssValue">{{seconds}}</div>
                 <div class="cssLibel">ثواني</div>
               </div>
               <div>
-                <div class="cssValue">46</div>
+                <div class="cssValue">{{minutes}}</div>
                 <div class="cssLibel">دقائق</div>
               </div>
               <div>
-                <div class="cssValue">03</div>
+                <div class="cssValue">{{hours}}</div>
                 <div class="cssLibel">ساعات</div>
               </div>
             </div>
           </div>
         </div>
       </ion-col>
-    </ion-row> -->
+    </ion-row>
+    <!-- *ngIf="stillOffred" -->
+    <ion-row >
+      <ion-col size="12" class="ion-no-padding">
+        <div class="cssSlider2">
+          <ion-slides pager="true" [options]="slideOpts2" #mySlider2>
+            <ion-slide [routerLink]="['/products', {id: 'special', nom:'عروض اليوم', special:true}]"
+              *ngFor="let p of specialorders"
+              [style.background-image]="'url('+ 'http://blooming.dreamhost.com:2022/images/image_'+p.code+'.png' +')'">
+              <!-- <img src="./../../../assets/images/product/prod4.jpg" alt="error"> -->
+            </ion-slide>
+          </ion-slides>
+
+          <!-- <span (click)="prev()" class="cheveronRight">
+            <fa-icon style="color: #DC4E41;" icon="chevron-right"></fa-icon>
+          </span>
+          <span (click)="next()" class="cheveronLeft">
+            <fa-icon style="color: #DC4E41;" icon="chevron-left"></fa-icon>
+          </span> -->
+        </div>
+      </ion-col>
+    </ion-row>
 
     <ion-row style="margin-bottom: 4px !important;">
       <ion-col size="12" class="ion-no-padding">
-        <div class="cssOffre">
+        <div class="cssOffre2">
           <div class="cssContentOffre">
-            <div class="cssTitle tajawal-Bold">عروض اليوم</div>
-            <!-- <div class="cssClock">
-              <div>
-                <div class="cssValue">17</div>
-                <div class="cssLibel">ثواني</div>
-              </div>
-              <div>
-                <div class="cssValue">46</div>
-                <div class="cssLibel">دقائق</div>
-              </div>
-              <div>
-                <div class="cssValue">03</div>
-                <div class="cssLibel">ساعات</div>
-              </div>
-            </div> -->
+            <div class="cssExpired tajawal-Boldd">فئات متنوعة</div>
           </div>
         </div>
       </ion-col>
     </ion-row>
-
-    <ion-row>
-      <ion-col size="12" class="ion-no-padding">
-        <div class="cssSlider2">
-          <ion-slides pager="false" [options]="slideOpts2" #mySlider2>
-            <ion-slide  [routerLink]="['/products', {id: 'special', nom:'عروض اليوم', special:true}]" *ngFor="let p of specialorders" [style.background-image]="'url('+ 'http://blooming.dreamhost.com:2022/images/image_'+p.code+'.png' +')'">
-              <!-- <img src="./../../../assets/images/product/prod4.jpg" alt="@youb"> -->
-            </ion-slide>
-          </ion-slides>
-
-          <span (click)="prev()" class="cheveronRight">
-            <fa-icon style="color: #f5ec32;" icon="chevron-right"></fa-icon>
-          </span>
-          <span (click)="next()" class="cheveronLeft">
-            <fa-icon style="color: #f5ec32;"  icon="chevron-left"></fa-icon>
-          </span>
-        </div>
-      </ion-col>
-    </ion-row>
-
-    <!-- categories -->
-
-    <!-- <ion-row>
-      <ion-col size="12" *ngFor="let d of catData" class="ion-no-padding">
-        <ion-card class="cssBigCard">
-
-          <ion-card-header class="cssHeaderCard" (click)="showCategory()">
-            <ion-card-title class="cssTitleCrd tajawal-Medium">
-              {{d}}
-              <span class="cssBtnHeader cssIcon1">
-                <fa-icon icon="chevron-down"></fa-icon>
-              </span>
-            </ion-card-title>
-          </ion-card-header>
-
-          <ion-card-content class="ion-no-padding" *ngIf="showCat">
-            <ion-row>
-              <ion-col size="6" *ngFor="let d of data" routerLink="/products">
-                <ion-card class="cssCard">
-                  <div [style.background-image]="'url('+ d.ref +')'" class="cssImg"></div>
-                  <ion-card-header class="cssHeaderCard">
-                    <ion-card-title class="cssTitleCrd tajawal-Medium">{{d.category}}</ion-card-title>
-                  </ion-card-header>
-                </ion-card>
-              </ion-col>
-            </ion-row>
-          </ion-card-content>
-
-        </ion-card>
-      </ion-col>
-    </ion-row> -->
 
     <ion-row style="margin: 20px 10px !important;">
       <ion-col size="6" *ngFor="let cat of categories">

@@ -59,7 +59,7 @@ ion-item {
 .cssCard3{
     margin: 0px 10px;
     padding: 10px 0px;
-    background: #FEC260;
+    background: #f1f2f6;
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
     margin-bottom: 14px;
@@ -70,7 +70,7 @@ ion-item {
 }
 .cssCard3 .cssFlex div{
     margin: 0px 6px 8px 6px;
-    color: #fff;
+    color: #444;
 }
 .cssCard3 .cssFlex div p{
     margin: 10px 0px;
@@ -88,15 +88,21 @@ ion-item {
 
 .cssFlex .cssSmallCard3{
     width: 100%;
-    background: #DC4E41;
+    // background: #DC4E41;
+    background: #fe2400;
+    color: #fff !important;
 }
 .cssFlex .cssSmallCard4{
     width: 100%;
-    background: #F7941D;
+    // background: #F7941D;
+    background: #fe5e00;
+    color: #fff !important;
 }
 .cssFlex .cssSmallCard5{
     width: 100%;
+    // background: #00A651;
     background: #00A651;
+    color: #fff !important;
 }
 .cssFlex .cssSmallCard3, 
 .cssFlex .cssSmallCard4, 
@@ -120,7 +126,7 @@ ion-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #F9E5DA;
+    background: #f1f2f6;
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
     border-radius: 4px;
     margin: 6px 10px; 

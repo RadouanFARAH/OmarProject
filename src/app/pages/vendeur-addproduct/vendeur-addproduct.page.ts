@@ -9,6 +9,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DirecteurService } from 'src/app/services/directeur.service';
 import { ResponsableService } from 'src/app/services/responsable.service';
 import { ToastService } from 'src/app/toasts/toast.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-vendeur-addproduct',
@@ -36,17 +37,33 @@ export class VendeurAddproductPage implements OnInit {
   spinner: boolean;
   whoisadding: any;
   responsables: any;
+  isBeingModified: boolean;
+  product: any;
+  url = environment.url
+  tobedeleted: any[] = [];
+  imageURLs2: any[] = [];
+  spinner2: boolean;
+  showSuccessAlerte2: boolean;
+  chosen_quantity_type: boolean=false;
 
-  constructor(private toast:ToastService,private directeurService: DirecteurService, private navCtrl: NavController, private sanitizer: DomSanitizer, private storage: Storage, private service: ResponsableService, private router: ActivatedRoute, public alertIonic: AlertController, private fb: FormBuilder, private paramService: ParametresService) {
+  constructor(private toast: ToastService, private directeurService: DirecteurService, private navCtrl: NavController, private sanitizer: DomSanitizer, private storage: Storage, private service: ResponsableService, private router: ActivatedRoute, public alertIonic: AlertController, private fb: FormBuilder, private paramService: ParametresService) {
     this.storage.get('role').then((role) => {
-      console.log(role);
-
       if (role) {
         this.role = role
       }
     })
     this.paramService.getAllCategories().subscribe((res: any) => {
       this.categories = res
+    })
+    this.router.queryParams.subscribe((params) => {
+      if (params.data) {
+        let product = JSON.parse(params.data)
+        if (product) {
+          this.isBeingModified = true
+          this.product = product
+        }
+      }
+
     })
     this.router.params.subscribe((params) => {
       this.whoisadding = params.role
@@ -61,26 +78,39 @@ export class VendeurAddproductPage implements OnInit {
   sanitizeImageUrl(imageUrl: string): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
   }
-  toggelspecial(){
-    this.special=!this.special
+  toggelspecial() {
+    this.special = !this.special
   }
   ngOnInit() {
-
     this.dataForm = this.fb.group({
-      nom: ["", Validators.required],
-      prixInitial: [0, Validators.required],
-      prixFinal: [0],
-      category: ["", Validators.required],
+      nom: [this.product && this.product.nom ? this.product.nom : "", Validators.required],
+      prixInitial: [this.product && this.product.prixinitial ? this.product.prixinitial : 0, Validators.required],
+      prixFinal: [this.product && this.product.prixfinal ? this.product.prixfinal : 0],
+      category: [this.product && this.product.categorie ? JSON.parse(this.product.categorie) : null, Validators.required],
       lvendeurs: [null],
       lresponsables: [null],
-      description: [""],
-      deliveryPrice: [0],
-      prixspecial:[0]
+      description: [this.product && this.product.description ? this.product.description : ""],
+      deliveryPrice: [this.product && this.product.deliveryPrice ? this.product.deliveryPrice : 0],
+      prixspecial: [this.product && this.product.prixspecial ? this.product.prixspecial : 0],
+      quantity: [this.product && this.product.quantity ? this.product.quantity : 0],
+      quantity_type: [this.product && this.product.quantity_type ? this.product.quantity_type : false],
+      quantity_type_value: [this.product && this.product.quantity_type_value ? this.product.quantity_type_value : 0]
     })
+    this.dataForm.valueChanges.subscribe((values)=>{
+        let quantity_type = this.dataForm.controls['quantity_type'].value
+        console.log("quantity_type ",quantity_type, typeof(quantity_type));
+        
+        if (quantity_type) {
+          this.chosen_quantity_type =true
 
+        }else{
+          this.chosen_quantity_type =false
+
+        }
+        console.log("chosen_quantity_type ",this.chosen_quantity_type);
+        
+    })
     if (this.whoisadding == 'R') {
-      console.log('is R');
-
       this.dataForm.patchValue({
         lvendeurs: [null, Validators.required]
       })
@@ -92,13 +122,11 @@ export class VendeurAddproductPage implements OnInit {
     }
 
     this.dataForm.valueChanges.subscribe(() => {
-      console.log(this.dataForm.errors, this.dataForm.invalid);
 
       // prices check
-      if ((this.dataForm.get('prixFinal').value > this.dataForm.get('prixInitial').value) || (this.dataForm.get('category').value.length === 0) || (this.dataForm.get('nom').value === '' || (this.whoisadding == 'R' && !this.dataForm.get('lvendeurs').value) || (this.whoisadding == 'D' && !this.dataForm.get('lresponsables').value))) {
+      if ((this.dataForm.get('prixFinal').value > this.dataForm.get('prixInitial').value) || (this.dataForm.get('category').value?.length === 0) || (this.dataForm.get('nom').value === '' || (this.whoisadding == 'R' && !this.dataForm.get('lvendeurs').value) || (this.whoisadding == 'D' && !this.dataForm.get('lresponsables').value))) {
         this.disabled = true
       } else {
-        // console.log(this.dataForm.get('category').value);
         this.disabled = false
       }
       if (this.dataForm.get('prixFinal').value > this.dataForm.get('prixInitial').value) {
@@ -153,46 +181,52 @@ export class VendeurAddproductPage implements OnInit {
 
   getVendeurByResponsable() {
     this.service.getVendeurByResponsable().subscribe((res: any) => {
-      console.log(res);
       this.vendeurs = res
-      console.log(this.vendeurs);
 
     }, err => console.log(err))
   }
   getResponsableByDirecteur() {
     this.directeurService.getResponsableByDirecteur().subscribe((res: any) => {
-      console.log(res);
       this.responsables = res
-      console.log(this.responsables);
 
     }, err => console.log(err))
   }
+  // setProduct(){
+ 
+  // }
   setProduct() {
+
     let code = "P" + Date.now();
     let data = {
       ...this.dataForm.value,
       code,
       role: this.role,
-      special:this.special,
-      urls:this.images.length
+      special: this.special,
+      urls: this.images.length,
+
     }
-    this.paramService.setProduct(data).subscribe((res: any) => {
-
-      const formData = new FormData();
-      console.log("formData", formData.has('image'));
-      
-      if (this.image) {
-        formData.append('image', this.image, code + '.' + this.image.name.split('.')[1]);
-      }
-      if (this.images.length > 0) {
-        for (let i = 0; i < this.images.length; i++) {
-          formData.append('image', this.images[i], code + "A"+i + '.' + this.image.name.split('.')[1]);
+    if (this.product) {
+      data.id = this.product.id
+      this.paramService.updateProduct(data).subscribe((res: any) => {
+        this.paramService.deleteFiles({ tobedeleted: this.tobedeleted }).subscribe((res) => {
+        }, (err) => {
+          console.log(err);
+        })
+        const formData = new FormData();
+        if (this.image) {
+          formData.append('image', this.image, this.product.code + '.' + this.image.name.split('.')[1]);
         }
-      }
-      console.log("formData", formData.has('image'));
+        if (this.images.length > 0) {
+          for (let i = 0; i < this.images.length; i++) {
+            formData.append('image', this.images[i], this.product.code + "A" + Date.now() + '.' + this.images[i].name.split('.')[1]);
+          }
+        }
+        this.paramService.setProductImage(formData).subscribe((res: any) => {
+        }, async (err) => {
+          console.log(err)
+        })
 
-      this.paramService.setProductImage(formData).subscribe((res: any) => {
-      this.spinner = false
+        this.spinner = false
         this.showSuccessAlerte = true;
         this.imageURL = '';
         this.imageURLs = [];
@@ -200,15 +234,43 @@ export class VendeurAddproductPage implements OnInit {
           this.goBack();
           this.showSuccessAlerte = false;
         }, 3000);
+        // */
       }, async (err) => {
-      this.spinner = false
+        this.spinner = false
         this.toast.presentErrorToast('حدث خطأ المرجو إعادة المحاولة', 2000)
-      }
-      )
-    }, async (err) => {
-      this.spinner = false
-      this.toast.presentErrorToast('حدث خطأ المرجو إعادة المحاولة',2000)
-    })
+      })
+    } else {
+      this.paramService.setProduct(data).subscribe((res: any) => {
+        const formData = new FormData();
+        if (this.image) {
+          // means that the principale image is selected
+          formData.append('image', this.image, code + '.' + this.image.name.split('.')[1]);
+        }
+        if (this.images.length > 0) {
+          // means that the other images are selected
+          for (let i = 0; i < this.images.length; i++) {
+            formData.append('image', this.images[i], code + "A" + Date.now() + '.' + this.image.name.split('.')[1]);
+          }
+        }
+        this.paramService.setProductImage(formData).subscribe((res: any) => {
+          this.spinner = false
+          this.showSuccessAlerte = true;
+          this.imageURL = '';
+          this.imageURLs = [];
+          setTimeout(() => {
+            this.goBack();
+            this.showSuccessAlerte = false;
+          }, 3000);
+        }, async (err) => {
+          this.spinner = false
+          this.toast.presentErrorToast('حدث خطأ المرجو إعادة المحاولة', 2000)
+        })
+      }, async (err) => {
+        this.spinner = false
+        this.toast.presentErrorToast('حدث خطأ المرجو إعادة المحاولة', 2000)
+      })
+    }
+
 
   }
   ionViewWillEnter() {
@@ -216,11 +278,21 @@ export class VendeurAddproductPage implements OnInit {
     this.showSuccessAlerte = false
     this.imageURL = '';
     this.imageURLs = [];
+    if (this.product) {
+      this.imageURL = this.sanitizeImageUrl(this.url + '/images/image_' + this.product.code + '.png')
+      this.paramService.getUrls({ code: this.product.code }).subscribe((urls: any) => {
+        this.imageURLs2 = urls
+      })
+      // for (let i=0; i<this.product.urls; i++){
+      //   this.imageURLs.push(this.sanitizeImageUrl(this.url+'/images/image_'+this.product.code+"A"+i+'.png'))
+      // }
+    }
+
   }
 
   onChange(e) {
 
-    if (e.target.files[0].size > 1000000) {
+    if (e.target.files[0].size > 10000000) {
       this.toast.presentErrorToast('حجم الصورة كبير جدا', 5000)
       return
     } else {
@@ -231,7 +303,7 @@ export class VendeurAddproductPage implements OnInit {
   }
   onChangeM(e) {
     for (let i = 0; i < e.target.files.length; i++) {
-      if (e.target.files[i].size > 1000000) {
+      if (e.target.files[i].size > 10000000) {
         this.toast.presentErrorToast('حجم الصورة كبير جدا', 5000)
         return
       } else {
@@ -240,19 +312,35 @@ export class VendeurAddproductPage implements OnInit {
       }
     }
   }
-  deleteImg(i){
-    if (i.toString()==='P'){
-      document.getElementById('file_input').click()
+  deleteImg2(i) {
+
+    let image = i.split('images/')[1]
+    if (this.tobedeleted.includes(image)) {
+      this.tobedeleted.splice(this.tobedeleted.indexOf(image), 1)
     } else {
-      this.images.splice(i,1)
-      this.imageURLs.splice(i,1)
+      this.tobedeleted.push(image)
     }
+  }
+  deleteImg(i) {
+    this.imageURLs.splice(i, 1)
+  }
+  deleteProduct(id){
+    this.directeurService.deleteProduct({id:id}).subscribe((res:any)=>{
+      this.spinner2 = false
+      this.showSuccessAlerte2 = true;
+      setTimeout(() => {
+        this.goBack();
+        this.showSuccessAlerte2 = false;
+      }, 3000);
+    }, (err)=>{
+      this.spinner2 = false
+      this.toast.presentErrorToast('حدث خطأ المرجو إعادة المحاولة', 2000)
+    })
   }
 
   // modelMsg = "تم إرسال المنتج إلى الإدارة، سيتم نشره إلى عملائك  بعد التأكيد."
   msg = "هل أنت متأكد من صحة المعلومات التي قمت بإدخالها لنشر المنتج ؟"
-  async showAlert() {
-    console.log("alert triggred");
+  async showAlert(product) {
 
     const alert = await this.alertIonic.create({
       cssClass: 'my-custom-class',
@@ -262,8 +350,13 @@ export class VendeurAddproductPage implements OnInit {
       buttons: ['إلغاء', {
         text: 'تأكيد',
         handler: () => {
-          this.spinner=true
-          this.setProduct();
+          if (!product){
+            this.spinner = true
+            this.setProduct();
+          }else{
+            this.spinner2 = true
+            this.deleteProduct(this.product.id)
+          }
         }
       }
       ]

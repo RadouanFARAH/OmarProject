@@ -14,18 +14,15 @@ export class LogcityPage implements OnInit {
   // countV: number = 0;
 
   constructor(private V_Q_service: VilleQuartierService, private userService: UserService) {
-    this.V_Q_service.getVilles().subscribe(res => {
-      console.log("ttttt", res);
-      this.data = res;
-    })
 
-    // this.userService.getNumberUsersByRole(this.data.name).subscribe(res => {
-    //   console.log("aaaaa", res);
-    //   this.countC
-    // })
   }
 
   ngOnInit() {
+    console.log("did");
+    
+    this.V_Q_service.getVilles().subscribe(res => {
+      this.data = res;
+    })
   }
 
 }

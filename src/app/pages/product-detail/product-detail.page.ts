@@ -3,6 +3,7 @@ import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { CallNumberService } from 'src/app/services/call-number.service';
 import { MyOrdersService } from 'src/app/services/my-orders.service';
+import { ToastService } from 'src/app/toasts/toast.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -19,10 +20,15 @@ export class ProductDetailPage implements OnInit {
       nom: "",
       prixInitial: 0,
       prixFinal: 0,
+      prixspecial: 0,
+      deliveryPrice:0,
       category: "",
       description: "",
       special:false,
-      reduction:""
+      reduction:"",
+      point_c:null,
+      point_v:null,
+      quantity:0
     },
     vendeurInfos: {
       nom: "",
@@ -43,14 +49,15 @@ export class ProductDetailPage implements OnInit {
   product: any;
   url=environment.url
   added: boolean;
-  constructor(private navCtrl:NavController,private callNumber:CallNumberService,private activeRouter: ActivatedRoute, private orderService: MyOrdersService) {
+  enableToOrder: boolean;
+  constructor(private toastService:ToastService,private navCtrl:NavController,private callNumber:CallNumberService,private activeRouter: ActivatedRoute, private orderService: MyOrdersService) {
     this.orderService.calculate_quantity()
     this.commandeNum = this.orderService.cart_quantity.value
     this.orderService.cart_quantity.subscribe((qte)=>{
       this.commandeNum = qte
     })
 
-    this.activeRouter.params.subscribe(params => {
+    this.activeRouter.queryParams.subscribe(params => {
       this.imgs.push(this.url+'/images/image_'+params.code+'.png')
       for (let i=0; i<params.urls; i++){
         this.imgs.push(this.url+'/images/image_'+params.code+"A"+i+'.png')
@@ -62,10 +69,15 @@ export class ProductDetailPage implements OnInit {
           nom: params.nom,
           prixInitial: params.prixinitial,
           prixFinal: params.prixfinal,
+          deliveryPrice: params.deliveryPrice,
           category: params.categorie,
           description: params.description,
           special:params.special,
-          reduction:params.reduction
+          prixspecial:params.prixspecial,
+          reduction:params.reduction,
+          point_c:params.point_c,
+          point_v:params.point_v,
+          quantity:params.quantity
         },
         vendeurInfos: {
           nom: params.nomprenom,
@@ -87,6 +99,9 @@ export class ProductDetailPage implements OnInit {
   }
   ionViewWillEnter(){
    this.qte = this.orderService.get_product_quantity(this.product.id)
+   if ((this.product.quantity_type===1 && (this.qte+1)>1 )){
+    this.enableToOrder = true
+  }
    this.orderService.calculate_quantity()
    this.commandeNum = this.orderService.cart_quantity.value
    this.orderService.cart_quantity.subscribe((qte) => {
@@ -102,21 +117,42 @@ export class ProductDetailPage implements OnInit {
    })
   }
   checkProductInOrder(id) {
-    for (let i = 0; i < this.orderService.myCart.length; i++) {
-      if (id == this.orderService.myCart[i].id) return {exist:true,index:i}
+    for (let i = 0; i < this.orderService.myCart.value.length; i++) {
+      if (id == this.orderService.myCart.value[i].id) return {exist:true,index:i}
     }
     return {exist:false, index:0}
   }
 
+
+
+
+  
   addQty() {
-    this.qte++
-    this.added=true
-    let product = { ...this.product, quantite: this.qte }
-    if (this.checkProductInOrder(this.product.id).exist){
-      this.orderService.increaseOrderQuantity(this.checkProductInOrder(this.product.id).index)
-    }else{
-      this.orderService.addProductToOrder(product)
+    if ((this.product.quantity_type && (this.qte+1)> this.product.quantity_type_value)){
+      this.enableToOrder = true
+      this.toastService.presentErrorToast(`لا يمكنك طلب أكثر من ${this.product.quantity_type_value} `, 2000)
+    } else{
+      this.enableToOrder = false
+
+      if(((this.qte+1) >this.product.quantity)){
+        this.enableToOrder = true
+        this.toastService.presentErrorToast('لقد تجاوزت الكمية المتوفرة', 2000)
+      } else{
+
+        this.enableToOrder = false
+
+        this.qte++
+        this.added=true
+        let product = { ...this.product, quantite: this.qte }
+        if (this.checkProductInOrder(this.product.id).exist){
+          this.orderService.increaseOrderQuantity(this.checkProductInOrder(this.product.id).index)
+        }else{
+          this.orderService.addProductToOrder(product)
+        }
+      }
+  
     }
+
     
     
   }
@@ -125,7 +161,7 @@ export class ProductDetailPage implements OnInit {
     this.qte--
     if (this.checkProductInOrder(this.product.id).exist){
       let index = this.checkProductInOrder(this.product.id).index
-      let product = this.orderService.myCart[index]
+      let product = this.orderService.myCart.value[index]
       if (product.quantite === 1){
         this.orderService.removeProductFromOrder(index)
         this.added=false

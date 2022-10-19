@@ -1,12 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonSlides, NavController, ToastController } from '@ionic/angular';
+import { IonSlides, NavController, Platform, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { UserService } from 'src/app/services/user.service';
 import { VilleQuartierService } from 'src/app/services/ville-quartier.service';
 import jwtDecode from 'jwt-decode';
 import { ToastService } from 'src/app/toasts/toast.service';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ParametresService } from 'src/app/services/parametres.service';
 
 @Component({
   selector: 'app-logregister',
@@ -16,16 +19,11 @@ import { ToastService } from 'src/app/toasts/toast.service';
 export class LogregisterPage implements OnInit {
 
   data: FormGroup;
-
   slideOpts = {
-
-    // initialSlide: 1,
-
     speed: 400,
     allowSlideNext: false,
     allowSlidePrev: false
   };
-
   ville: string = "";
   showSuccessAlerte: boolean = false;
   showErrorAlerte: boolean = false;
@@ -43,10 +41,16 @@ export class LogregisterPage implements OnInit {
   id: any;
   message: string = 'فشل في محاولة التسجيل. المرجو منك إعادة العملية.';
   username: any;
-  beingRegistred: boolean;
+  beingRegistred: boolean = false;
   genPwd: Object;
   spinner: boolean;
-  constructor(private toast: ToastService, private storage: Storage, private navCtrl: NavController, private locationService: VilleQuartierService, private fb: FormBuilder, private userService: UserService, private activeRoute: ActivatedRoute, private route: Router) {
+  villes: any;
+  selectedVille: any;
+  lat: any;
+  lng: any;
+  imageURL: any;
+  image: any;
+  constructor(private platform: Platform, private paramService: ParametresService, private geolocation: Geolocation, private sanitizer: DomSanitizer, private toast: ToastService, private storage: Storage, private navCtrl: NavController, private locationService: VilleQuartierService, private fb: FormBuilder, private userService: UserService, private activeRoute: ActivatedRoute, private route: Router) {
     this.storage.get('id').then((id) => {
       this.id = id
     })
@@ -54,10 +58,8 @@ export class LogregisterPage implements OnInit {
       this.username = username
     })
     this.activeRoute.params.subscribe((params) => {
-      console.log(params);
       if (params.ville) {
         this.beingRegistred = false
-
         this.ville = params.ville;
         let data = {
           ville: params.ville
@@ -71,11 +73,10 @@ export class LogregisterPage implements OnInit {
 
       } else {
         this.beingRegistred = true
-        this.getVille()
+        // this.getVille()
+        this.getVilles()
       }
-
       this.responsable = params.responsable;
-
       this.role = params.role;
     })
   }
@@ -98,10 +99,56 @@ export class LogregisterPage implements OnInit {
       }, err => console.log(err))
     })
   }
+  getVilles() {
+    this.generatePassword = true;
+
+    this.locationService.getVilles().subscribe((villes: any) => {
+      this.villes = villes;
+
+    })
+  }
+
+  getQuartiers() {
+
+    let data = {
+      ville: this.data.value.ville
+    }
+
+    this.locationService.getQuartierByVille(data).subscribe((res: any) => {
+      this.quartiers = res
+      this.data.patchValue({
+        adresselogement: [res[0].id]
+      })
+    }, err => console.log(err))
+  }
+
   goBack() {
     this.navCtrl.back();
   }
   ngOnInit() {
+    this.platform.ready().then(() => {
+      this.geolocation.getCurrentPosition().then((resp) => {
+        // resp.coords.latitude
+        // resp.coords.longitude
+        console.log(resp.coords);
+        this.lat = resp.coords.latitude
+        this.lng = resp.coords.longitude
+
+      }).catch((error) => {
+        console.log('Error getting location', error);
+      });
+
+      //  let watch = this.geolocation.watchPosition();
+      //  watch.subscribe((data) => {
+      //   // data can be a set of coordinates, or an error (if an error occurred).
+      //   // data.coords.latitude
+      //   // data.coords.longitude
+      //   console.log(data);
+
+      //  });
+
+    });
+
     this.data = this.fb.group({
       nomprenom: ["", Validators.required],
       ville: [this.ville],
@@ -128,7 +175,6 @@ export class LogregisterPage implements OnInit {
 
     // this.slides.slideNext()
     // this.slides.getActiveIndex().then((index)=>{
-    //   console.log("sliding to :",index+1);
 
     //   this.slides.slideTo(index+1);
     // }) 
@@ -137,7 +183,6 @@ export class LogregisterPage implements OnInit {
     this.slides.slidePrev()
 
     // this.slides.getActiveIndex().then((index)=>{
-    //   console.log("sliding to :",index-1);
 
     //   this.slides.slideTo(index-1);
     // }) 
@@ -147,14 +192,11 @@ export class LogregisterPage implements OnInit {
     this.manChecked = true;
     this.womanChecked = false;
     this.genre = 'H';
-    console.log(this.genre);
-
   }
   checkWoman() {
     this.womanChecked = true;
     this.manChecked = false;
     this.genre = 'F';
-    console.log(this.genre);
   }
   dismiss() {
     this.showSuccessAlerte2 = false;
@@ -163,21 +205,27 @@ export class LogregisterPage implements OnInit {
   register() {
     this.showErrorAlerte = false
     this.showSuccessAlerte = false;
-    this.spinner=true
-    let tel:string = this.data.get('tel').value
+    this.spinner = true
+    let tel: string = this.data.get('tel').value
     let whatsapp = this.data.get('whatsapp').value
-    if (((!tel.startsWith('06') && !tel.startsWith('07')) || (tel.length !== 10))  || ((!whatsapp.startsWith('06') && !whatsapp.startsWith('07')) || (whatsapp.length !== 10))  ) {
-      this.toast.presentErrorToast('رقم الهاتف أو الواتس اب غير صحيح',5000);
-    }else{
+    if (((!tel.startsWith('06') && !tel.startsWith('07')) || (tel.length !== 10)) || ((!whatsapp.startsWith('06') && !whatsapp.startsWith('07')) || (whatsapp.length !== 10))) {
+      this.toast.presentErrorToast('رقم الهاتف أو الواتس اب غير صحيح', 5000);
+    } else {
 
-      let data = { ...this.data.value, genre: this.genre, role: this.role, host: this.id, generatePassword: this.generatePassword }
-      console.log(data);
-  
-      this.userService.register(data).subscribe((res) => {
-        this.spinner=true
-  
+      let data = { ...this.data.value, genre: this.genre, role: this.role, host: this.id, generatePassword: this.generatePassword, lat: this.lat, lng: this.lng }
+
+      this.userService.register(data).subscribe((res:any) => {
+        this.spinner = true
+        const formData = new FormData();
+        if (this.image) {
+          formData.append('image', "profile_image_"+res.id+'.' + this.image.name.split('.')[1]);
+        }
+        this.paramService.setProfileImage(formData).subscribe((res: any) => {
+        }, async (err) => {
+          console.log(err)
+        })
         this.data.reset()
-        this.genPwd = res
+        this.genPwd = res.genPwd
         if (this.beingRegistred) {
           let listname = ''
           if (this.role == 'C') listname = 'العملاء'
@@ -192,9 +240,8 @@ export class LogregisterPage implements OnInit {
               pwd: data.password
             }
             this.userService.login(dt).subscribe(async (res: any) => {
-  
+
               let decodedToken: any = jwtDecode(res.token)
-              console.log('token________ : ', res.token, "  ", decodedToken);
               await this.storage.set('token', res.token)
               await this.storage.set('username', res['name'])
               await this.storage.set('id', decodedToken.id)
@@ -202,22 +249,17 @@ export class LogregisterPage implements OnInit {
               await this.userService.name.next(res['name'])
               await this.userService.role.next(res['role'])
               this.route.navigate(["categories"])
-  
-              console.log("login successed");
+
             }, async (err) => {
-              this.toast.presentErrorToast('',3000);
+              this.toast.presentErrorToast('', 3000);
               this.showSuccessAlerte = true;
-  
+
             })
-          }else{
+          } else {
             this.showSuccessAlerte = true;
           }
         }
         // send whatssapp message:
-  
-  
-  
-        console.log("register successed");
       }, (err) => {
         if (err.status == 409) {
           this.message = 'المستخدم موجود بالفعل في نظامنا'
@@ -227,6 +269,20 @@ export class LogregisterPage implements OnInit {
           this.showErrorAlerte = false;
         }, 3000);
       })
+    }
+
+  }
+  sanitizeImageUrl(imageUrl: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  }
+  onChange(e) {
+
+    if (e.target.files[0].size > 10000000) {
+      this.toast.presentErrorToast('حجم الصورة كبير جدا', 5000)
+      return
+    } else {
+      this.imageURL = this.sanitizeImageUrl(URL.createObjectURL(e.target.files[0]))
+      this.image = e.target.files[0]
     }
 
   }

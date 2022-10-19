@@ -76,17 +76,17 @@
       <ion-spinner *ngIf="!dashboard"></ion-spinner>
     </ion-row>
     <div *ngIf="demandeR">
-      <ion-row *ngFor="let d of data.demandeR">
-        <ion-col class="ion-no-padding" [routerLink]="['/vendeur-demande-conso', d]">
+      <ion-row *ngFor="let d of data.demandeR"> 
+        <ion-col class="ion-no-padding" >
           <div class="cssSmallCard6">
             <div class="cssName">
               <span class="cssBgIcon1">
                 <fa-icon icon="times"></fa-icon>
               </span>
-              <span class="almarai-Bold cssNameValue">{{d.nomprenom}}</span>
+              <span class="almarai-Bold cssNameValue" style="color: #fe2400;">{{d.nomprenom}}</span>
             </div>
             <div class="cssMsg">
-              <span class="almarai-bold cssRefuse">أكد رفض الطلبية</span>
+              <span class="almarai-bold cssRefuse" style="color: #fe2400;">أكد رفض الطلبية</span>
             </div>
           </div>
         </ion-col>
@@ -100,15 +100,15 @@
               <span class="cssBgIcon3">
                 <fa-icon icon="check"></fa-icon>
               </span>
-              <span class="almarai-Bold cssNameValue">{{d.nomprenom}}</span>
+              <span class="almarai-Bold cssNameValue" style="color: #00A651;">{{d.nomprenom}}</span>
             </div>
             <div class="cssNote">
-              <span class="cssValue">{{d.pointtotal}}</span>
-              <span class="almarai-Bold cssUnit">نقطة</span>
+              <span class="cssValue" style="color: #00A651;">{{d.pointtotal}}</span>
+              <span class="almarai-Bold cssUnit" style="color: #00A651;">نقطة</span>
             </div>
             <div class="cssPrix">
-              <span class="cssValue">{{d.prixtotal}}</span>
-              <span class="almarai-Bold cssUnit">درهم</span>
+              <span class="cssValue" style="color: #00A651;">{{d.prixtotal}}</span>
+              <span class="almarai-Bold cssUnit" style="color: #00A651;">درهم</span>
             </div>
           </div>
         </ion-col>
@@ -122,7 +122,7 @@
               <span class="cssBgIcon2">
                 <fa-icon icon="hourglass-half"></fa-icon>
               </span>
-              <span class="almarai-Bold cssNameValue">{{d.nomprenom}}</span>
+              <span class="almarai-Bold cssNameValue" style="color: #fe5e00;">{{d.nomprenom}}</span>
             </div>
           </div>
         </ion-col>
@@ -144,7 +144,7 @@
     </ion-row>
     <ion-row *ngIf="other_places">
       <ion-col class="ion-no-padding">
-        <div class="cssCard3">
+        <div class="cssCard3"> 
           <div class="cssFlex">
             <div>
               <p class="cssLibel almarai-ExtraBold"> عدد النقاط  </p>

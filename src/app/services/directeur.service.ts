@@ -15,4 +15,7 @@ export class DirecteurService {
  getResponsableByDirecteur() {
     return this.http.get(this.url + '/directeur/getResponsableByDirecteur')
   }
+  deleteProduct(data) {
+    return this.http.post(this.url + '/product/deleteProduct', data)
+  }
 }

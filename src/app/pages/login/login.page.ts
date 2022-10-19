@@ -56,7 +56,6 @@ export class LoginPage implements OnInit {
     this.userService.login(data).subscribe(async (res: any) => {
       this.spinner = false
       let decodedToken: any = jwtDecode(res.token)
-      console.log('token________ : ', res.token, "  ", decodedToken);
 
       // localStorage.setItem('token', res.token);
       await this.storage.set('token', res.token)
@@ -81,7 +80,6 @@ export class LoginPage implements OnInit {
         await this.storage.set('tokenD', res.token)
         this.route.navigate(["directeur-home"])
       }
-      console.log("login successed");
     }, async (err) => {
       this.spinner = false
       const toast = await this.toast.create({

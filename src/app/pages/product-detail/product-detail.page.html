@@ -20,7 +20,7 @@
   <!-- Slide Image -->
   <ion-slides>
     <ion-slide *ngFor="let img of imgs">
-      <img [src]="img" alt="@youb">
+      <img [src]="img" alt="@ub">
     </ion-slide>
   </ion-slides>
 
@@ -33,18 +33,23 @@
           <div class="cssTitle Almarai-Bold">{{data.productInfos.nom}}</div>
           <div class="cssPrix">
             <div class="cssPrixFinal tajawal-Medium">
-              <span>{{data.productInfos.prixFinal}}</span> درهم
+              <span>{{data.productInfos.special?data.productInfos.prixspecial:data.productInfos.prixFinal}}</span> درهم
             </div>
             <div class="cssPrixInitial tajawal-Medium">
               <span>{{data.productInfos.prixInitial}} درهم</span> 
             </div>
             <div class="cssPrixFinal  tajawal-Medium reduction">
-              <span>%{{data.productInfos.reduction}} -</span>
+              <span>{{data.productInfos.reduction}}% -</span>
             </div>
           </div>
           <div class="cssDescription">
+            <p class="cssLibel tajawal-Boldd"></p>
+            <p *ngIf="data.productInfos.point_c!=0"  class="tajawal-Boldd">+ <span style="color: rgb(61, 212, 41);">{{data.productInfos.point_c}}</span> نقاط لكل وحدة</p>
+            <p  *ngIf="data.productInfos.point_v!=0"  class="tajawal-Boldd">+ <span style="color: rgb(212, 52, 41);">{{data.productInfos.point_v}}</span>.</p>
+          </div>
+          <div class="cssDescription" *ngIf="data.productInfos.description">
             <p class="cssLibel tajawal-Boldd">وصف المنتج :</p>
-            <p>{{data.productInfos.description}}</p>
+            <p >{{data.productInfos.description}}</p>
           </div>
           <p *ngIf="!data.productInfos.special">
             <span class="cssLibel tajawal-Boldd">ثمن التوصيل :</span>
@@ -60,7 +65,7 @@
     </ion-row>
 
     <!-- row 1 -->
-    <ion-row>
+    <ion-row *ngIf="data.productInfos.quantity!=0">
       <ion-col *ngIf="qte!=0">
         <div class="cssQuantity">
           <div class="cssAddMinus" (click)="minusQty()">
@@ -69,7 +74,7 @@
           <div class="cssQty">
             {{qte}}
           </div>
-          <div class="cssAddMinus" (click)="addQty()">
+          <div [ngClass]="{'cssAddMinus':true, 'grey_back':enableToOrder, 'grey':!enableToOrder}"  (click)="addQty()">
             <fa-icon icon="plus"></fa-icon>
           </div>
         </div>
@@ -78,6 +83,9 @@
       <ion-col *ngIf="qte==0">
         <ion-button class="tajawal-Boldd" (click)="addQty()">أضف إلى السلة</ion-button>
       </ion-col>
+    </ion-row>
+    <ion-row class="tajawal-Boldd" *ngIf="data.productInfos.quantity==0">
+      لم يعد متوفر حاليا
     </ion-row>
 
     <!-- row 2 -->
@@ -143,7 +151,7 @@
     <ion-row *ngFor="let img of imgs">
       <ion-col class="ion-no-padding">
         <div class="cssImages">
-        <img [src]="img" alt="@youb">
+        <img [src]="img" alt="error">
         </div>
       </ion-col>
     </ion-row>

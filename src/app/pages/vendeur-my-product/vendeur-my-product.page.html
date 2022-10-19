@@ -2,7 +2,7 @@
   <ion-toolbar class="cssHeader bgheader">
 
     <ion-title class="tajawal-Bold cssTitleHead">
-      <span class="cssBtnHeaderLeft" routerLink="/vendeur-home">
+      <span class="cssBtnHeaderLeft" (click)="goBack()">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
       منتوجاتي
@@ -13,14 +13,19 @@
 <ion-content class="bgInterface2">
   <ion-grid class="ion-no-padding">
 
-    <div class="cssHeight">
+    <!-- <div class="cssHeight"> -->
       <ion-row *ngFor="let d of data;  index as i">
       <!-- <ion-row> -->
         <ion-col class="ion-no-padding">
           <div class="cssProduct">
+            <div *ngIf="role==='D'" (click)="updateProduct(d)" style="margin: 5px; padding: 5px; cursor: pointer;">
+              <p style="margin: 0;padding: 0;text-align: end;">
+                  <img src="assets/icon/edit.png" alt="edit">
+              </p>
+          </div>
             <div class="cssImg">
               <img [src]="url+'/images/image_'+d.code+'.png'" alt="image">
-              <!-- <img src="./../../../assets/images/product/prod2.jpg" alt="@youb"> -->
+              <!-- <img src="./../../../assets/images/product/prod2.jpg" alt="error"> -->
             </div>
             <div class="cssInfos">
               <div class="cssName tajawal-Medium">{{d.nom}}</div>
@@ -35,6 +40,10 @@
                   <span>{{d.point}}</span> نقطة
                 </div>
 
+                <div class="cssPrix">
+                  <!-- <span>24</span> نقطة -->
+                  <span>البائع</span> {{d.vendor}}
+                </div>
                 <div class="btnToggle">
                   <p style="font-size: 0.8rem;">{{d.appear==1? 'ظاهر للعملاء' : 'غير ظاهر للعملاء'}}</p>
                   <ion-toggle [checked]="d.toggel" (ionChange)="toggelappear(d)"></ion-toggle>
@@ -45,6 +54,6 @@
           </div>
         </ion-col>
       </ion-row>
-    </div>
+    <!-- </div> -->
   </ion-grid>
 </ion-content>

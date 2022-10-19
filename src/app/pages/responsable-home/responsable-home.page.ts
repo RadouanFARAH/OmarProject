@@ -43,7 +43,6 @@ export class ResponsableHomePage implements OnInit {
     this.data.jour= new Date().toLocaleDateString('ar-EG-u-nu-latn',{weekday: 'long'});
     this.getVendeurByResponsable()
     this.storage.get('role').then((role) => {
-      console.log(role);
 
       if (role) {
         this.role = role

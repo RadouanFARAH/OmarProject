@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
@@ -7,6 +8,7 @@ import { UserService } from 'src/app/services/user.service';
 import { VendeurMyConsoService } from 'src/app/services/vendeur-my-conso.service';
 import { VilleQuartierService } from 'src/app/services/ville-quartier.service';
 import { ToastService } from 'src/app/toasts/toast.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-responsable-settings',
@@ -18,7 +20,7 @@ export class ResponsableSettingsPage implements OnInit {
   quartiers: any;
   days = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
   selectedVendeur1 = null;
-  selectedVendeur2:any[] = [];
+  selectedVendeur2: any[] = [];
   selectedVendeur3: any[] = [];
   selectedDay: any[] = [];
   selectedQuartier = null;
@@ -31,29 +33,47 @@ export class ResponsableSettingsPage implements OnInit {
   selectedProduct: any[] = [];
   selectedProduct2: any[] = [];
   special: any = null;
-  action: string='';
+  action: string = '';
   selectedCategory: any[] = [];
   selectedCategory2: any[] = [];
   responsables: any;
-  selectedResponsable: any=null;
+  selectedResponsable: any = null;
   selectedPoint: any;
   forWho: string = '';
-  selectedGoal: number = 0;
-  spinner1: boolean=false;
-  spinner2: boolean=false;
-  spinner3: boolean=false;
-  spinner4: boolean=false;
-  spinner5: boolean=false;
-  prixspecial:any= 0;
+  selectedPointsGoal: number = 0;
+  selectedOrdersGoal: number = 0;
+  spinner1: boolean = false;
+  spinner2: boolean = false;
+  spinner3: boolean = false;
+  spinner4: boolean = false;
+  spinner5: boolean = false;
+  prixspecial: any = 0;
+  selectedPercent: any;
+  selectedAppCost: any;
+  url: string = environment.url;
+  selectedTimer: any;
+  customAlertOptions1 = {
+    // header: 'Pizza Toppings',
+    // subHeader: 'Select your favorite topping',
+    message: '',
+    translucent: true,
+  };
+  customAlertOptions2 = {
+    // header: 'Pizza Toppings',
+    // subHeader: 'Select your favorite topping',
+    message: '',
+    translucent: true,
+  };
+  delivery_price: any;
+  delivery_percent: any;
+  delivery_max: any;
+  forWhat: any;
   constructor(private navCtrl: NavController, private userService: UserService, private toast: ToastService, private paramService: ParametresService, private storage: Storage, private toastCtrl: ToastController, private vendeurService: VendeurMyConsoService, private villesService: VilleQuartierService, private responsableService: ResponsableService) {
     this.storage.get('role').then((role) => {
-      console.log(role);
 
       if (role) {
         this.role = role
         if (this.role == 'D') {
-
-          console.log('getting categories');
           this.getCategories()
           this.getAllResponsables()
           this.getAllVendeurs()
@@ -77,11 +97,8 @@ export class ResponsableSettingsPage implements OnInit {
   }
   ngOnInit() {
     this.getVendeurByResponsable()
-    console.log(this.role);
   }
   getCategories() {
-    console.log('getting categories');
-
     this.paramService.getAllCategories().subscribe((res: any) => {
       this.categories = res
     })
@@ -89,9 +106,9 @@ export class ResponsableSettingsPage implements OnInit {
 
 
 
-  setGoal(id) {
+  setGoal(data) {
     return new Promise((resolve, reject) => {
-      this.paramService.setGoal({ user: id }).subscribe((res) => {
+      this.paramService.setGoal(data).subscribe((res) => {
         resolve(true)
       }, (err) => {
         resolve(false)
@@ -106,14 +123,73 @@ export class ResponsableSettingsPage implements OnInit {
     this.getProductsByCategorie2(this.selectedCategory2)
   }
   getProductsByCategorie(id) {
-    this.paramService.getProductByCategory(id, false).subscribe((res: any) => {
-      this.products = res
+    this.products = null
+    this.customAlertOptions1.message = 'المرجو الإنتظار...'
+
+    this.paramService.getProductByCategory(id, 'ALL').subscribe((res: any) => {
+      this.products = res;
+      if (this.products.length === 0) {
+
+        this.customAlertOptions1.message = 'لا يوجد منتج'
+      } else {
+
+        this.customAlertOptions1.message = ''
+      }
+    }, (err) => {
+      this.customAlertOptions1.message = 'حدث خطأ, المرجو إعادة المحاولة'
+
     })
   }
   getProductsByCategorie2(id) {
-    this.paramService.getProductByCategory(id, false).subscribe((res: any) => {
+    this.products2 = null
+
+    this.customAlertOptions2.message = 'المرجو الإنتظار...'
+
+    this.paramService.getProductByCategory(id, 'ALL').subscribe((res: any) => {
       this.products2 = res
-    })
+      if (this.products2.length === 0) {
+        this.customAlertOptions2.message = 'لا يوجد منتج'
+      } else {
+        this.customAlertOptions2.message = ''
+      }
+    }, err => this.customAlertOptions2.message = 'حدث خطأ, المرجو إعادة المحاولة')
+  }
+  updateOtherSettings() {
+
+    if (this.selectedPercent != null) {
+
+      this.userService.setPercent({ value: this.selectedPercent }).subscribe((res) => { })
+    }
+    if (this.selectedAppCost != null) {
+
+      this.userService.setAppCost({ value: this.selectedAppCost }).subscribe((res) => { })
+    }
+    if (this.selectedTimer) {
+
+      this.userService.setTimer({ value: this.selectedTimer }).subscribe((res) => { })
+    }
+    console.log("delivery price :", this.delivery_price);
+
+    if (this.delivery_price != null) {
+
+      this.userService.setDelivery({ value: this.delivery_price, type: this.forWhat }).subscribe((res) => { })
+    }
+    if (this.delivery_max || this.delivery_percent) {
+      let data = { delivery_percent: this.delivery_percent, delivery_max: this.delivery_max }
+      console.log(data);
+
+      this.userService.setDeliveryParams({ delivery_percent: this.delivery_percent, delivery_max: this.delivery_max }).subscribe((res) => { })
+    }
+
+    this.presentSuccessToast('تمت العملية بنجاح');
+    this.delivery_price = null
+    this.delivery_max = null
+    this.delivery_percent = null
+    this.forWhat = null
+    this.selectedPercent = null
+    this.selectedAppCost = null
+    this.selectedTimer = null
+
   }
   async setVendeurDayZone() {
     this.spinner1 = true
@@ -131,13 +207,13 @@ export class ResponsableSettingsPage implements OnInit {
           day: element
         }
         let number = await this.getVendeurDayZone(data)
-        console.log(number);
         if (number == 0) {
           let done = await this.callSetVendeurDayZone(data)
           if (!done) {
             this.spinner1 = false
             this.presentErrorToast('حدث خطأ ما ، يرجى المحاولة مرة أخرى لاحقًا');
             break
+            return
           }
         } else {
           data.mode = 'U'
@@ -146,6 +222,7 @@ export class ResponsableSettingsPage implements OnInit {
             this.spinner1 = false
             this.presentErrorToast('حدث خطأ ما ، يرجى المحاولة مرة أخرى لاحقًا');
             break
+            return
           }
         }
       }
@@ -154,13 +231,13 @@ export class ResponsableSettingsPage implements OnInit {
       this.selectedQuartier = null
       this.selectedDay = null
     }
-  
+
 
   }
   async setMonthGoal() {
     this.spinner2 = true
 
-    if (this.selectedVendeur2.length == 0 || this.selectedGoal == 0) {
+    if (this.selectedVendeur2.length == 0 || (this.selectedOrdersGoal == 0 && this.selectedPointsGoal == 0)) {
       this.toast.presentErrorToast('', 3000)
       this.spinner2 = false
 
@@ -168,15 +245,20 @@ export class ResponsableSettingsPage implements OnInit {
       for (let index = 0; index < this.selectedVendeur2.length; index++) {
         const element = this.selectedVendeur2[index];
         let data = {
-          goal: this.selectedGoal,
+          goal: {
+            points: this.selectedPointsGoal,
+            orders: this.selectedOrdersGoal
+          },
           user: element
         }
         let done = await this.setGoal(data)
+
         if (!done) {
           this.spinner2 = false
 
           this.presentErrorToast('حدث خطأ ما ، يرجى المحاولة مرة أخرى لاحقًا');
           break
+          return
         }
       }
       this.spinner2 = false
@@ -188,7 +270,7 @@ export class ResponsableSettingsPage implements OnInit {
   async changeResponsableVendeur() {
     this.spinner3 = true
 
-    if (!this.selectedResponsable  || this.selectedVendeur3.length == 0 || !this.action) {
+    if (!this.selectedResponsable || this.selectedVendeur3.length == 0 || !this.action) {
       this.toast.presentErrorToast('', 3000)
       this.spinner3 = false
 
@@ -200,12 +282,13 @@ export class ResponsableSettingsPage implements OnInit {
           vendeur: element,
           action: this.action
         }
-        
+
         let done = await this.setResponsableVendeur(data)
         if (!done) {
           this.spinner3 = false
           this.presentErrorToast('حدث خطأ ما ، يرجى المحاولة مرة أخرى لاحقًا');
           break
+          return
         }
       }
       this.toast.presentSuccessToast('', 3000)
@@ -225,7 +308,7 @@ export class ResponsableSettingsPage implements OnInit {
         let data = {
           id: element,
           special: this.special,
-          prixspecial:this.prixspecial
+          prixspecial: this.prixspecial
         }
         let done = await this.updateSpecialAsync(data)
         if (!done) {
@@ -233,6 +316,7 @@ export class ResponsableSettingsPage implements OnInit {
 
           this.presentErrorToast('حدث خطأ ما ، يرجى المحاولة مرة أخرى لاحقًا');
           break
+          return
         }
       }
       this.spinner4 = false
@@ -260,6 +344,7 @@ export class ResponsableSettingsPage implements OnInit {
           this.spinner5 = false
           this.presentErrorToast('حدث خطأ ما ، يرجى المحاولة مرة أخرى لاحقًا');
           break
+          return
         }
       }
       this.spinner5 = false
@@ -269,14 +354,14 @@ export class ResponsableSettingsPage implements OnInit {
     }
   }
 
-  setResponsableVendeur(data){
-    return new Promise((resolve, reject)=>{
+  setResponsableVendeur(data) {
+    return new Promise((resolve, reject) => {
       this.responsableService.changeResponsableVendeur(data)
-      .subscribe((res) => {
-        resolve(true)
-      }, (err) => {
-        resolve(false)
-      })
+        .subscribe((res) => {
+          resolve(true)
+        }, (err) => {
+          resolve(false)
+        })
     })
   }
   updateSpecialAsync(data) {
@@ -304,7 +389,6 @@ export class ResponsableSettingsPage implements OnInit {
     })
   }
   vendeurChanged(ville) {
-    console.log("changed");
     this.getQuartierByVille(ville)
   }
 
@@ -350,7 +434,9 @@ export class ResponsableSettingsPage implements OnInit {
     var k;
     k = event.key;  //         k = event.keyCode;  (Both can be used)
     let isNumeric = regex.test(k);
-    return isNumeric
+
+    let isPoint = event.key == '.'
+    return isNumeric || isPoint
   }
   async presentSuccessToast(message) {
     const toast = await this.toastCtrl.create({

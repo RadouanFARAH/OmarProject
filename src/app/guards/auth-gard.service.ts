@@ -12,11 +12,8 @@ export class AuthGardService implements CanActivate {
   canActivate() {
     var token = this.paramService.getToken();
     if (token) {
-      console.log("there is a  token :",token);
       return true;
     } else {
-      console.log("there is no token ",token);
-      
       return false;
     }
   }

@@ -13,8 +13,26 @@ export class ParametresService {
    getVendeur_dashboard(data){
     return this.http.post(this.Url + "/vendeur_dashboard", data)
    }
+   sellerGainFromClientToday(data){
+    return this.http.post(this.Url + "/vendeur_dashboard/sellerGainFromClientToday", data)
+   }
    getAppCost(){
     return this.http.get(this.Url + "/user/getAppCost")
+   }
+   getPercent(){
+    return this.http.get(this.Url + "/user/getPercent")
+   }
+   getDelivery(data){
+    return this.http.post(this.Url + "/user/getDelivery",data)
+   }
+   getDeliveryParams(){
+    return this.http.get(this.Url + "/user/getDeliveryParams")
+   }
+   getUrls(data){
+    return this.http.post(this.Url + "/product/getProductImagesURL", data)
+   }
+   deleteFiles(data){
+    return this.http.post(this.Url + "/product/deleteFiles", data)
    }
    setGoal(data){
     return this.http.post(this.Url + "/user/setGoal", data)
@@ -55,7 +73,6 @@ export class ParametresService {
     return this.http.get(this.Url + "/product" + "/specialOrders")
   }
   getAllCategories() {
-    console.log('getting categories');
     return this.http.get(this.Url + "/category" + "/getAllCategories")
   }
 
@@ -65,12 +82,17 @@ export class ParametresService {
   setProduct(data) {
     return this.http.post(this.Url + "/product" + "/putProduct", data)
   }
+  updateProduct(data) {
+    return this.http.post(this.Url + "/product" + "/updateProduct", data)
+  }
   setProductImage(formData){
     return this.http.post(this.Url + "/product" + "/putProductImage", formData)
   }
-
-  getHistoryOrdersConso() {
-    return this.http.get(this.Url + "/orders" + "/getOrdersConsommateur")
+  setProfileImage(formData){
+    return this.http.post(this.Url + "/product" + "/setProfileImage", formData)
+  }
+  getHistoryOrdersConso(data) {
+    return this.http.post(this.Url + "/orders" + "/getOrdersConsommateur", data)
   }
 
   // for authentification

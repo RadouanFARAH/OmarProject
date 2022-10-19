@@ -7,7 +7,7 @@
   <ion-grid>
     <!-- <ion-row>
       <ion-col class="ion-no-padding">
-        <img src="../../../assets/images/logo/logo3.png" alt="@youb" class="cssLogo" draggable="false">
+        <img src="../../../assets/images/logo/logo3.png" alt="error" class="cssLogo" draggable="false">
       </ion-col>
     </ion-row>
     <br>
@@ -25,14 +25,14 @@
       <!-- <ion-row>
         <ion-col class="ion-no-padding">
           <div class="cssGender" (click)="checkMan()">
-            <img src="../../../assets/images/register/man1.png" *ngIf="!manChecked" alt="@youb">
-            <img src="../../../assets/images/register/man2.png" *ngIf="manChecked" alt="@youb">
+            <img src="../../../assets/images/register/man1.png" *ngIf="!manChecked" alt="error">
+            <img src="../../../assets/images/register/man2.png" *ngIf="manChecked" alt="error">
           </div>
         </ion-col>
         <ion-col class="ion-no-padding">
           <div class="cssGender" (click)="checkWoman()">
-            <img src="../../../assets/images/register/woman1.png" *ngIf="!womanChecked" alt="@youb">
-            <img src="../../../assets/images/register/woman2.png" *ngIf="womanChecked" alt="@youb">
+            <img src="../../../assets/images/register/woman1.png" *ngIf="!womanChecked" alt="error">
+            <img src="../../../assets/images/register/woman2.png" *ngIf="womanChecked" alt="error">
           </div>
         </ion-col>
       </ion-row> -->
@@ -52,8 +52,12 @@
         <ion-col class="ion-no-padding">
           <div class="cssToRight">
             <ion-label class="cssLabel tajawal-Medium">المدينة</ion-label>
-            <ion-input [disabled]="villeDisabled" formControlName="ville" type="text" class="cssInput tajawal-Medium">
+            <ion-input *ngIf="!beingRegistred" [disabled]="villeDisabled" formControlName="ville" type="text" class="cssInput tajawal-Medium">
             </ion-input>
+            <ion-select placeholder="إختر المدينة" (ionChange)="getQuartiers()" *ngIf="beingRegistred" formControlName="ville" class="cssInput tajawal-Medium">
+              <ion-select-option *ngFor="let v of villes" [value]="v.name">{{v.name}}
+              </ion-select-option>
+            </ion-select>
           </div>
         </ion-col>
       </ion-row>
@@ -62,7 +66,7 @@
         <ion-col class="ion-no-padding">
           <div class="cssToRight">
             <ion-label class="cssLabel tajawal-Medium">الحي</ion-label>
-            <ion-select formControlName="adresselogement" class="cssInput tajawal-Medium">
+            <ion-select placeholder="إختر الحي" formControlName="adresselogement" class="cssInput tajawal-Medium">
               <ion-select-option *ngFor="let quartier of quartiers" [value]="quartier.id">{{quartier.name}}
               </ion-select-option>
             </ion-select>
@@ -112,6 +116,19 @@
           </div>
         </ion-col>
       </ion-row>
+
+      <label class="fileLabel cssLabel tajawal-Bold"> صورة جانبية
+        <input id="file_input" type="file" (change)="onChange($event)" accept=".jpg, .jpeg, .png" class="file">
+        <div class="cssImgages">
+          <div class="cssbtnImg">
+            <img *ngIf="imageURL" [src]="imageURL">
+            <span *ngIf="!imageURL">
+              <fa-icon style="color: #f0344c;" icon="camera"></fa-icon>
+            </span>
+          </div>
+        </div>
+      </label>
+
         <ion-row *ngIf="!beingRegistred">
         <ion-col class="ion-no-padding">
           <div class="cssToRight">
@@ -134,7 +151,7 @@
       </ion-row>
       <ion-row>
         <ion-col class="ion-no-padding">
-          <div style="margin-top: 16px;">
+          <div style="margin-top: 16px;margin-bottom: 16px;">
             <ion-button expand="block" class="tajawal-Bold cssBtn color1" (click)="goBack()">رجوع
             </ion-button>
           </div>
@@ -149,7 +166,7 @@
   <div class="alerte" *ngIf="showSuccessAlerte">
     <div class="box2">
       <div class="successImg">
-        <img src="../../../assets/images/successAlert1.gif" alt="@youb" draggable="false">
+        <img src="../../../assets/images/successAlert1.gif" alt="error" draggable="false">
       </div>
       <div class="message">
         <p class="message_content tajawal-Medium">
@@ -166,7 +183,7 @@
   <div class="alerte" *ngIf="showErrorAlerte">
     <div class="box2">
       <div class="successImg">
-        <img src="../../../assets/images/errorAlert1.gif" alt="@youb" draggable="false">
+        <img src="../../../assets/images/errorAlert1.gif" alt="error" draggable="false">
       </div>
       <div class="message">
         <p id="koho" class="message_content tajawal-Medium">
@@ -182,7 +199,7 @@
   <div class="alerte" *ngIf="showSuccessAlerte2">
     <div class="box2">
       <div class="successImg">
-        <img src="../../../assets/images/successAlert1.gif" alt="@youb" draggable="false">
+        <img src="../../../assets/images/successAlert1.gif" alt="error" draggable="false">
       </div>
       <div class="message">
         <p class="message_content tajawal-Medium">

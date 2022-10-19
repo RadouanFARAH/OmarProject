@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ProductsService } from 'src/app/services/products.service';
 import { environment } from 'src/environments/environment';
@@ -13,15 +14,12 @@ export class VendeurMyProductPage implements OnInit {
 
   selectedToggle: boolean = false;
   data: any;
-  phrase: string='';
-  url=environment.url
+  phrase: string = '';
+  url = environment.url
   role: any;
-  constructor(private storage:Storage,private productService: ProductsService, private router: ActivatedRoute) {
-    console.log("hola");
+  constructor(private navCtrl:NavController,private route:Router,private storage: Storage, private productService: ProductsService, private router: ActivatedRoute) {
     this.getProductsBySeller()
     this.storage.get('role').then((role) => {
-      console.log(role);
-
       if (role) {
         this.role = role
       }
@@ -30,31 +28,35 @@ export class VendeurMyProductPage implements OnInit {
 
   ngOnInit() {
   }
-  toggelappear(d){
-    this.phrase = d.appear==1? 'ظاهر للعملاء' : 'غير ظاهر للعملاء' 
-    setTimeout(()=>{
+  toggelappear(d) {
+    this.phrase = d.appear == 1 ? 'ظاهر للعملاء' : 'غير ظاهر للعملاء'
+    setTimeout(() => {
       this.phrase = ''
     }, 3000)
-    d.appear = d.appear==1?0:1
-    console.log(d);
-      this.productService.toggelappear({data:d}).subscribe((res)=>{
-      console.log("toggled ok");
-      
-    },(err)=>{console.log(err);
+    d.appear = d.appear == 1 ? 0 : 1
+    this.productService.toggelappear({ data: d }).subscribe((res) => {
+    }, (err) => {
+      console.log(err);
     })
   }
-ionViewDidEnter(){
-  this.getProductsBySeller()
-}
+  ionViewDidEnter() {
+    this.getProductsBySeller()
+  }
   getProductsBySeller() {
-    console.log("hola");
     this.productService.getProductsBySeller().subscribe((res: any) => {
-      console.log(res);
-      for (let i = 0; i<res.length; i++){
-        res[i].toggel = res[i].appear===1?true:false
+      for (let i = 0; i < res.length; i++) {
+        res[i].toggel = res[i].appear === 1 ? true : false
       }
       this.data = res
     })
+  }
+
+  goBack() {
+    this.navCtrl.back();
+  }
+
+  updateProduct(d:any){
+    this.route.navigate(['vendeur-addproduct'], {queryParams:{data:JSON.stringify(d)}})
   }
 
 }

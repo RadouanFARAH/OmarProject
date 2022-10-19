@@ -23,29 +23,30 @@
 }
 .cssSlider ion-slide{
     width: 100%;
-    background-position: center; 
+    // background-size: contain;
+    background-size: 98% 98%;
     background-repeat: no-repeat; 
-    background-size: cover;
+    background-position: center center; 
 }
 
 // ------- slide 2
 .cssSlider2{
-    border: 2px solid #F5EC32;
+    // border: 2px solid #ebebeb;
     background: #ffffff;
-    border-radius: 0px 0px 8px 8px;
+    // border-radius: 0px 0px 8px 8px;
 }
 .cssSlider2 ion-slides{
     // width: 100%;
-    width: 94%;
-    height: 200px;
+    width: 100%;
+    height: 300px;
     margin: 0px auto;
-    border-radius: 10px;
+    border-radius: 0px 0px 10px 10px;
 }
 .cssSlider2 ion-slide{
     width: 100%;
     background-position: center; 
     background-repeat: no-repeat; 
-    background-size: 80% 100%;
+    background-size: 100% 100%;
 }
 
 .cheveronRight, .cheveronLeft{
@@ -65,25 +66,7 @@
     color: #fff;
     font-size: 30px;
 }
-// --- time down
-.cssClock{
-    width: 100%;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-.cssClock .cssLibel{
-    font-size: 12px;
-    text-align: center;
-    color: #555;
-}
-.cssClock .cssValue{
-    font-size: 30px;
-    font-weight: 600;
-    text-align: center;
-    color: #DC4E41;
-}
+
 // --- big categorie
 .cssBigCard{
     width: 100% !important;
@@ -141,30 +124,79 @@
 // }
 
 .cssOffre{
-    width: 100%;
-    height: 60px;
+    width: 100%; height: 86px;
+    margin-top: 14px !important;
     display: block;
     margin: 0px auto;
     background-image: url('./../../../assets/images/category/offre.png');
-    background-position: center; 
-    background-repeat: no-repeat; 
     background-size: cover;
-    // border-radius: 6px; 
+    background-position: center center; 
+    background-repeat: no-repeat;
+    border-radius: 8px 8px 0px 0px;
+}
+.cssOffre2{
+    width: 100%; height: 86px;
+    margin-top: 17px !important;
+    display: block;
+    margin: 0px auto;
+    background-image: url('./../../../assets/images/category/offre2.png');
+    background-size: cover;
+    background-position: center center; 
+    background-repeat: no-repeat;
     border-radius: 8px 8px 0px 0px;
 }
 
 .cssContentOffre{
     width: 60%;
     position: relative;
-    left: -30%; top: 8%;
+    left: -30%; top: 2%;
 }
 .cssContentOffre .cssTitle{
-    margin-top: 5px;
-    font-size: 30px;
+    margin-top: 2px;
+    font-size: 20px;
     text-align: center;
-    color: #e83816;
+    color: #fff;
+    // color: #e83816;
+}
+.cssExpired{
+    position: relative;
+    top: 28px;
+    font-size: 18px;
+    text-align: center;
+    color: #fff;
+    // color: #e83816;
 }
 
+.cssOffre2 .cssExpired{
+    position: relative;
+    top: 28px;
+    font-size: 22px;
+    text-align: center;
+    color: #181D31;
+}
+// --- time down
+.cssClock{
+    width: 100%;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.cssClock .cssLibel{
+    font-size: 10px;
+    text-align: center;
+    color: #fff;
+    // color: #444;
+}
+.cssClock .cssValue{
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    // color: #DC4E41;
+    position: relative;
+    top: -5px;
+}
 // menu
 .cssMenu .cssIconMenu{
     margin-left: 16px;
@@ -247,7 +279,7 @@
     }
     // --- time down
     .cssClock .cssValue{
-        font-size: 24px;
+        font-size: 18px;
     }
     // --- big categorie
     .cssBigCard{
@@ -265,6 +297,9 @@
         font-weight: 500;
     }
 
+    .cssSlider2 ion-slides{
+        height: 220px;
+    }
     // --- small categories
     .cssCard{
         height: 150px !important;
@@ -316,16 +351,16 @@
 
     // -------------------
     .cssOffre{
-        height: 50px; 
+        height: 80px; 
     }
     
     .cssContentOffre{
-        width: 60%;
+        width: 64%;
         position: relative;
-        left: -30%; top: 16%;
+        left: -30%; top: 4%;
     }
     .cssContentOffre .cssTitle{
-        font-size: 22px;
+        font-size: 20px;
     }
     // -------------------
 }

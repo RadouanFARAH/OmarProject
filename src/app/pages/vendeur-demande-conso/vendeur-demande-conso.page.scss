@@ -16,7 +16,10 @@
     position: relative;
     top: -20px; left: 14px;
 }
-.cssCard1{background: #EADEDE; color: #444;}
+.cssCard1{
+    background: #F1F2F6; 
+    // background: #EADEDE;
+    color: #444;}
 .cssCard2{background: #0DAFAF;}
 .cssCard1 .cssTitleCard{background: #EADEDE;color: #444;}
 .cssCard2 .cssTitleCard{background: #0DAFAF;}
@@ -93,7 +96,8 @@
     height: 50px !important;
     width: 100%;
     font-size: 20px;
-    --background: #D3D3D3 !important;
+    --background: #F1F2F6 !important;
+    // --background: #D3D3D3 !important;
     color: #444;
     border-radius: 6px;
     border: none;
@@ -103,8 +107,9 @@
     height: 50px !important;
     width: 100%;
     font-size: 20px;
-    --background: #444 !important;
-    color: #D3D3D3;
+    --background: #c8c8c9 !important;
+    // --background: #444 !important;
+    color: #444;
     border-radius: 6px;
     border: none;
     padding: 0px 5px !important;

@@ -1,38 +1,43 @@
 
-.cssHeight{
-    width: 100%;
-    height: calc(100% - 240px) !important;
-    // height:400px;
-    position: fixed;
-    top: 55px !important;
-    overflow-y: scroll;
+
+.column {
+    box-shadow: 0px 0px 10px 0px #0000003d;
+    border-radius: 0px;
+    margin: 0 5px;
 }
 // row 1
 .cssProduct{
     // height: 130px !important;
-    width: 100%;
-    padding: 10px;
-    border-bottom: 1px solid #F0344C;
-    display: flex;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    grid-gap: 5px;
+    box-shadow: 0px 0px 10px 0px #cdbaba94;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    // height: 105px;
+    // width: 100%;
+    // padding: 10px;
+    // border-bottom: 1px solid #F0344C;
+    // display: flex;
+    // align-items: flex-start;
 }
 .cssProduct .cssImg{
-    width: 110px;
-    height: 110px;
-    margin-right: 16px;
-    box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
-    border-radius: 12px !important;
+    // width: 110px;
+    // height: 110px;
+    // margin-right: 16px;
+    // box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
+    // border-radius: 12px !important;
 }
 .cssProduct .cssImg img{
-    width: 100%;
-    height: 100%;
+    // height: 100px;
 }
 
 .cssInfos {
-    width: calc(100% - 130px) !important;
-    margin-right: 20px;
-    padding: 6px 0px;
-    padding-left: 10px;
+    // width: calc(100% - 130px) !important;
+    // margin-right: 20px;
+    // padding: 6px 0px;
+    // padding-left: 10px;
 }
 .cssInfos .cssName{
     margin-bottom: 0px;
@@ -41,13 +46,20 @@
     color: #333;
 }
 .cssInfos .cssPrixT{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    // display: flex;
+    // justify-content: space-between;
+    // flex-direction: column;
+    // position: relative;
+    // top: -3px;
+    // right: -3px
 }
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     margin-bottom: 10px;
+
 .cssInfos .cssPrix{
-    width: 45%;
+    width: 100%;
     font-size: 13px;
     font-weight: 600;
     color: #777;
@@ -57,16 +69,28 @@
 }
 
 .cssQuantity{
+    // background: blue;
+    // background: #d3414f;
+    background: #d3414f;
     display: flex;
-    justify-content: space-between;
-    width: 45% !important;
-    height: 30px !important;
-    background: #ff4747 !important;
-    border-radius: 4px;
-    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.2);
+    // grid-template-columns: 40px 40px 40px;
+    // width: fit-content;
+    border-radius: 5px;
+    // display: grid;
+    // align-content: space-around;
+    // border-radius: 12px;
+    // position: relative;
+    // top: -5px;
+    // height: 105px;
+
 }
+    // display: flex;
+    // flex-direction: column;
+    // width: 50px;
+    // box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.2);
+
 .cssQuantity .cssAddMinus{
-    width: 30%;
+    flex: 1;
     color: #fff;
     font-size: 15px;
     text-align: center;
@@ -74,27 +98,28 @@
     cursor: pointer;
 }
 .cssQuantity .cssQty{
-    width: 40%;
+    flex: 1;
     font-size: 16px;
     text-align: center;
     font-weight: 700;
-    color: #ff4747;
+    /* color: #ff4747; */
     background: #fff !important;
-    border: 1px solid #ff4747;
+    border-radius: 5px;
+    /* border: 1px solid #ff4747;*/
 }
 
 .cssDelete{
-    width: 45% !important;
-    height: 30px !important;
+    // width: 45% !important;
+    // height: 30px !important;
 }
 .cssDelete .cssTrashBtn{
-    width: 100%; height: 30px;
+    // width: 100%; height: 30px;
     padding: 5px;
     font-size: 15px;
     text-align: center;
     border-radius: 4px !important;
     color: #fff;
-    background: #DC4E41 !important;
+    background: #ff4a39  !important;
 }
 // row 2
 .cssSomme{
@@ -113,26 +138,37 @@
     z-index: 100000;
 }
 .cssS{
-    height: 100px;
+    // position: fixed;
+    // bottom: 85px;
     width: 100%;
-    padding: 0px 10px;
-    background-color: #EAE7E7;
-    color: #964A4A;
-    position: fixed;
-    bottom: 80px;
-    z-index: 100000;
+    // height: 100px;
+    // width: 100%;
+    // padding: 0px 10px;
+    // background-color: #EAE7E7;
+    // color: #964A4A;
+    // position: fixed;
+    // bottom: 80px;
+    // z-index: 100000;
 }
 .cssS .cssSome{
     text-align: center;
     font-size: 19px;
     padding: 3px;
     border-bottom: 1px solid #fff;
+    color: #8F2418;
 }
 .cssS .cssSomeValue{
-    display: flex;
-    justify-content: space-between;
+    // display: flex;
+    // justify-content: space-between;
     align-items: center;
+    margin: 5px;
+    box-shadow: 0px 0px 5px 0px #ebebeb;
+    padding: 5px;
+    border-radius: 7px;
+    background: #dbffdb;
+    color: #8F2418;
 }
+
 .cssS p{
     margin-top: 5px !important;
     margin-bottom: 3px !important;
@@ -151,40 +187,50 @@
 ion-button{
     width: 80% !important;
     height: 50px;
-    margin: 5px auto !important;
+    margin-right: 10%;
     --color: #fff;
     font-size: 22px;
     --background: #DC4E41 !important;
     border-radius: 10px;
-    position: fixed;
-    bottom: 10px;
-    left: 10%;
+    // position: fixed;
+    // bottom: 25px;
+    // left: 10%;
     z-index: 100000;
+}
+
+
+.titlePrice{
+    color: chocolate;
+    font-weight: 800;
+    margin-left: 5px;
 }
 
 
 @media only screen and (max-width: 362px) {
     // --- row 1
     .cssProduct{
-        padding: 6px;
+        margin: 4px;
+        padding: 4px;
+        /* border: 1px solid black; */
+        box-shadow: 0px 0px 10px 0px #cdbaba94;
     }
     .cssProduct .cssImg{
-        margin: 4px 0px;
+        // margin: 4px 0px;
         width: 90px;
-        height: 90px;
-        margin-right: 10px;
+        // height: 90px;
+        // margin-right: 10px;
     }
     
     .cssInfos {
-        width: calc(100% - 100px) !important;
-        margin-right: 20px;
+        // width: calc(100% - 100px) !important;
+        // margin-right: 20px;
         padding-left: 4px;
     }
     .cssInfos .cssName{
         font-size: 15px;
     }
     .cssInfos .cssPrix{
-        width: 48%;
+        width: 100%;
         font-size: 12px;
     }
     .cssInfos .cssPrix span{
@@ -194,10 +240,11 @@ ion-button{
     .cssQuantity .cssQty{
         font-size: 14px;
     }
+
     
-    .cssDelete{
-        width: 48% !important;
-    }
+    // .cssDelete{
+    //     width: 48% !important;
+    // }
     .cssDelete .cssTrashBtn{
         font-size: 14px;
         text-align: center;
@@ -218,21 +265,20 @@ ion-button{
         height: 40px;
         font-size: 16px;
         --border-radius: 4px;
-        position: fixed;
-        bottom: 8px;
-        left: 10%;
+        // position: fixed;
+        // bottom: 25px;
+        margin-right: 10%;
+        // left: 10%;
     }
 
     // --- somme
     .cssHeight{
-        width: 100%;
-        height: calc(100% - 205px) !important;
+        padding: 5px;
     }
     .cssS{
-        height: 80px;
-        position: fixed;
-        bottom: 65px;
-        z-index: 100000;
+        // position: fixed;
+        // bottom: 85px;
+        width: 100%;
     }
     .cssS .cssSome{
         font-size: 16px;
@@ -250,4 +296,10 @@ ion-button{
         font-size: 12px;
         font-weight: 600;
     }
+}
+.grey_back{
+    background: #c0bebe !important;
+}
+.grey{
+    background: #ff4747 !important;
 }

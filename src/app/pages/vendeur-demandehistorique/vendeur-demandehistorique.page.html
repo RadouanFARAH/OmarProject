@@ -13,7 +13,7 @@
 <ion-content class="bgInterface2">
   <ion-grid class="ion-no-padding">
     <div class="cssHeight">
-      <ion-row *ngFor="let d of data" routerLink="/vendeur-demandedetail">
+      <ion-row *ngFor="let d of data" [routerLink]="['/vendeur-demandedetail']">
         <ion-col class="ion-no-padding">
           <div [style.background]="d.etatDemande == 'V'? '#00A651' : '#DC4E41'" class="cssCard">
             <!-- <div class="cssCard"> -->

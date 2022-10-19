@@ -14,16 +14,34 @@ export class UserService {
   register(data) {
     return this.http.post(this.Url + '/register', data)
   }
-  
+
   getGoal() {
     return this.http.get(this.Url + '/getGoalByuser')
+  }
+  setAppCost(data) {
+    return this.http.post(this.Url + '/setAppCost', data);
+  }
+  setPercent(data) {
+    return this.http.post(this.Url + '/setPercent', data);
+  }
+  setTimer(data) {
+    return this.http.post(this.Url + '/setTimer', data);
+  }
+  setDelivery(data) {
+    return this.http.post(this.Url + '/setDelivery', data);
+  }
+  setDeliveryParams(data) {
+    return this.http.post(this.Url + '/setDeliveryParams', data);
+  }
+  getQuartierByUser(data) {
+    return this.http.post(this.Url + '/getQuartierByUser',data)
   }
 
   login(data) {
     return this.http.post(this.Url + '/login', data)
   }
-  getUsersByRole(role){
-    return this.http.post(this.Url+"/getUsersByRole",{role})
+  getUsersByRole(role) {
+    return this.http.post(this.Url + "/getUsersByRole", { role })
   }
   // for logcity
   // getNumberUsersByRole(data) {

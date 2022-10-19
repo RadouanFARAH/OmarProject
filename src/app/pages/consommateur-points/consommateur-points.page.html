@@ -20,7 +20,7 @@
       </ion-row>
     </div>
     <div class="cssHeight">
-      <ion-row *ngFor="let d of data" class="cssTHead" [style.background]="d.rejet == 0? '#00A651' : '#DC4E41'" >
+      <ion-row *ngFor="let d of data" class="cssTHead" [style.background]="d.rejet == 0? '#BAFFB4' : '#FE7E6D'">
         <ion-col size="3" class="ion-no-padding cssCenter cssValue">{{d.datecommande}}</ion-col>
         <ion-col size="6" class="ion-no-padding cssCenter cssValue">{{d.codecommande}}</ion-col>
         <ion-col size="3" class="ion-no-padding cssCenter cssValue cssPoints">{{d.rejet==0?d.pointtotal:''}}</ion-col>

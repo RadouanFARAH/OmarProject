@@ -1,7 +1,46 @@
 
+.fileLabel {
+    display: block;
+    position: relative;
+    text-align: center;
+}
 
+.file {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+.cssImgages {
+    margin-top: 6px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.cssbtnImg {
+    img {
+        height: 90px;
+    }
+    width: 90px;
+    height: 90px;
+
+    background: #fdfdfd;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.cssbtnImg fa-icon {
+    font-size: 36px;
+    color: #fff;
+}
 
 ion-grid{
+
     height: 100%; width: 100%;
     padding: 0px 8px;
 }
@@ -16,7 +55,7 @@ ion-grid{
 }
 .cssTitle{
     margin: 0px;
-    font-size: 16px;
+    font-size: 20px;
     text-align: center;
     color: #fff;
     font-weight: 600;
@@ -28,7 +67,7 @@ ion-grid{
 .cssForm{
     width: 300px;
     margin: 30px auto;
-    margin-top: 20px;
+    margin-top: 12px;
 }
 
 .cssGender{
@@ -85,14 +124,14 @@ ion-col{
         margin-top: 20px;
     }
     .cssTitle{
-        font-size: 12px;
+        font-size: 14px;
         position: relative;
         top: -8px;
     }
 
     .cssForm{
         width: 96%;
-        margin: 20px auto;
+        margin: 14px auto;
     }
     .cssGender{
         width: 70px; height: 70px;

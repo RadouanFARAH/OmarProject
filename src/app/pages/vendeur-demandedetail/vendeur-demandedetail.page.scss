@@ -8,11 +8,13 @@
 }
 // row 1
 .cssProduct{
-    height: 130px !important;
-    width: 100%;
-    border-bottom: 1px solid #F0344C;
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    // height: 130px !important;
+    // width: 100%;
+    // border-bottom: 1px solid #F0344C;
+    // display: flex;
+    // align-items: center;
     
     // animation: fadeInTopLeft; 
     // animation-duration: 2s; 
@@ -22,21 +24,23 @@
     height: 110px;
     background: #FFEDE7;
     border-radius: 4px;
-    margin-right: 20px;
+    // margin-right: 20px;
+    overflow: overlay;
+
 }
 .cssProduct .cssImg img{
     width: 100%;
-    height: auto;
+    height: 130px;
 }
-.cssInfos {
-    margin-right: 20px;
-}
+// .cssInfos {
+//     // margin-right: 20px;
+// }
 .cssInfos p{
-    margin: 5px;
-    height: 22px;
+    // margin: 5px 0px;
+    /* height: 22px; */
     color: #964A4A;
-    position: relative;
-    top: -3px;
+    /* position: relative; */
+    /* top: -3px; */
 }
 .cssInfos .cssLibel{
     font-size: 16px;
@@ -72,3 +76,238 @@
         font-size: 14px;
     }
 }
+
+.cssCard1, .cssCard2{
+    width: 94%;
+    margin: 10px auto;
+    margin-top: 24px;
+    padding: 10px 15px;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+.cssTitleCard{
+    display: inline;
+    padding: 6px 14px;
+    border: 2px solid #FAFAFA;
+    border-radius: 18px;
+    font-size: 15px;
+    position: relative;
+    top: -20px; left: 14px;
+}
+.cssCard1{
+    background: #F1F2F6; 
+    // background: #EADEDE;
+    color: #444;}
+.cssCard2{background: #0DAFAF;}
+.cssCard1 .cssTitleCard{background: #EADEDE;color: #444;}
+.cssCard2 .cssTitleCard{background: #0DAFAF;}
+.cssContentCard2{
+    margin-bottom: -200px;
+}
+
+.cssContentCard div{margin-top: 4px;}
+.cssContentCard .cssLibel{
+    font-size: 15px;
+    margin-left: 10px;
+    margin-top: 8px;
+}
+.cssContentCard .cssValue{
+    font-size: 17px;
+}
+
+.cssContentCard .cssNum{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cssContentCard .cssNum .cssValue{
+    direction: rtl;
+    font-size: 19px;
+}
+
+.cssContentCard .cssNum .cssBtn{
+    margin-top: 8px !important;
+    height: 42px !important; 
+    width: 100%;
+    font-size: 13px;
+    --background: #fff !important;
+    color: #ffffff;
+    --border-radius: 21px !important;
+    border: none;
+}
+.cssContentCard .cssNum .cssBtn img{
+    width: 22px; height: 22px;
+    margin-right: 8px;
+}
+
+
+// row 2
+.cssCard2Infos{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cssDate{
+    position: absolute;
+    left: 20px;
+    top: 30px;
+    font-size: 14px;
+    color: #fafafa;
+}
+.cssCard2Infos .cssLibel{
+    text-align: center;
+    font-size: 15px !important;
+    margin: 2px 0px !important;
+}
+.cssCard2Infos .cssValue{
+    font-size: 18px !important;
+    font-weight: 600;
+    margin: 2px 0px;
+    text-align: center;
+}
+
+// row 3
+.cssBtns{
+    width: 94%;
+    margin: 0px auto;
+    margin-top: 8px;
+}
+.cssBtn2{
+    height: 50px !important;
+    width: 100%;
+    font-size: 20px;
+    --background: #F1F2F6 !important;
+    // --background: #D3D3D3 !important;
+    color: #444;
+    border-radius: 6px;
+    border: none;
+    padding: 0px 5px !important;
+}
+.cssBtn3{
+    height: 50px !important;
+    width: 100%;
+    font-size: 20px;
+    --background: #c8c8c9 !important;
+    // --background: #444 !important;
+    color: #444;
+    border-radius: 6px;
+    border: none;
+    padding: 0px 5px !important;
+}
+
+.cssBtn4, .cssBtn5{
+    margin-top: 12px;
+    height: 42px !important;
+    width: 90%;
+    font-size: 17px;
+    --background: #F0344C !important;
+    color: #fff;
+    --border-radius: 6px !important;
+    border: none;
+    padding: 0px 5px !important;
+}
+.cssBtn5{
+    --background: #EADEDE !important;
+    color: #F0344C;
+}
+
+@media only screen and (max-width: 362px) {
+    .cssCard1, .cssCard2{
+        margin-top: 20px;
+        padding: 6px 10;
+        border-radius: 5px;
+        padding-bottom: 0px;
+    }
+    .cssCard11{
+        margin: 5px auto;
+        margin-top: 5px;
+    }
+    .cssTitleCard{
+        font-size: 12px;
+        position: relative;
+        top: -16px;
+    }
+    .cssTitleCard span{
+        position: relative;
+        top: -6px;
+    }
+    .cssContentCard{
+        position: relative;
+        top: -14px;
+    }
+    .cssContentCard div{margin-top: 4px;}
+    .cssContentCard .cssLibel{
+        font-size: 12px;
+        margin-left: 10px;
+        margin-top: 8px;
+    }
+    .cssContentCard .cssValue{
+        font-size: 13px;
+    }
+    
+    .cssContentCard .cssNum{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .cssContentCard .cssNum .cssValue{
+        direction: rtl;
+        font-size: 15px;
+    }
+    
+    .cssContentCard .cssNum .cssBtn{
+        height: 38px !important; 
+        width: 100%;
+        font-size: 11px;
+        --border-radius: 19px !important;
+        border: none;
+    }
+    .cssContentCard .cssNum .cssBtn img{
+        width: 20px; height: 20px;
+        margin-right: 8px;
+    }
+    // ------------- row 2
+    .cssCard2{
+        height: 90px;
+    }
+    .cssCard2Infos{
+        margin-top: 8px !important;
+    }
+    .cssDate{
+        position: absolute;
+        left: 0px; top: -22px;
+        font-size: 13px;
+        color: #fafafa;
+    }
+    .cssCard2Infos .cssLibel{
+        font-size: 12px !important;
+        text-align: center;
+    }
+    .cssCard2Infos .cssValue{
+        font-size: 15px !important;
+    }
+
+    // ----- row 3
+    .cssBtn2, .cssBtn3{
+        margin-top: 0px !important;
+        height: 44px !important;
+        font-size: 17px;
+        --border-radius: 4px !important;
+    }
+}
+
+.cssBtnWhats{
+    --background: rgb(19, 187, 19);
+}
+.cssCard11{
+    margin: 5px auto;
+    margin-top: 5px;
+}
+
+capacitor-google-map {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }

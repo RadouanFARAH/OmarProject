@@ -44,7 +44,6 @@ export class ResponsableMyVendPage implements OnInit {
     this.callNumber.call(number)
   }
   vendeurChanged(){
-    console.log(this.d);
   }
   addproduct(){
     this.router.navigate(['/vendeur-addproduct'])

@@ -29,6 +29,14 @@
               <span class="cssValue tajawal-Medium">{{data1.nom}}</span>
             </div>
             <div>
+              <span class="cssLibel tajawal-Bold">رمز العميل :</span>
+              <span class="cssValue tajawal-Medium">{{data1.id}}</span>
+            </div>
+            <div>
+              <span class="cssLibel tajawal-Bold">الحي :</span>
+              <span class="cssValue tajawal-Medium">{{data1.quartier}}</span>
+            </div>
+            <div>
               <span class="cssLibel tajawal-Bold">العنوان :</span>
               <span class="cssValue tajawal-Medium">{{data1.adresse}}</span>
             </div>
@@ -43,7 +51,7 @@
               </div>
               <ion-button color="primary" (click)="call(data1.numPhone)" class="tajawal-Boldd cssBtn">
                 تواصل
-                <img src="../../../assets/images/vendeurConsoDtail/phone1.png" alt="@youb">
+                <img src="../../../assets/images/vendeurConsoDtail/phone1.png" alt="error">
               </ion-button>
             </div>
             <div class="cssNum">
@@ -53,19 +61,19 @@
               <ion-button color="success" [href]="'whatsapp://send?phone='+data1.numWhatsapp"
                 class="tajawal-Boldd cssBtnWhats cssBtn">
                 تواصل
-                <img src="../../../assets/images/vendeurConsoDtail/whatsapp1.png" alt="@youb">
+                <img src="../../../assets/images/vendeurConsoDtail/whatsapp1.png" alt="error">
               </ion-button>
             </div> -->
             <div class="cssNum">
               <ion-button color="primary" (click)="call(data1.numPhone)" class="tajawal-Boldd cssBtn">
                 تواصل عبر الهاتف
-                <img src="../../../assets/images/vendeurConsoDtail/phone1.png" alt="@youb">
+                <img src="../../../assets/images/vendeurConsoDtail/phone1.png" alt="error">
               </ion-button>
 
-              <ion-button color="success" [href]="'whatsapp://send?phone='+data1.numWhatsapp"
+              <ion-button color="success" [href]="'whatsapp://send?phone=+212'+data1.numWhatsapp"
                 class="tajawal-Boldd cssBtnWhats cssBtn">
                 تواصل عبر الواتساب
-                <img src="../../../assets/images/vendeurConsoDtail/whatsapp1.png" alt="@youb">
+                <img src="../../../assets/images/vendeurConsoDtail/whatsapp1.png" alt="error">
               </ion-button>
             </div>
 
@@ -74,7 +82,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row style="place-content: center;">
+    <ion-row style="place-content: center;" *ngIf="d.etatDemande !== 'V'">
       <ion-button class="tajawal-Boldd cssBtn4" (click)="goTo(d.id)">تمرير الطلبية
       </ion-button>
       <ion-button (click)="openRejectConsumerModal(d.id)" class="tajawal-Boldd cssBtn5">رفض الطلبية</ion-button>
@@ -110,18 +118,18 @@
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <ion-row  *ngIf="d.etatDemande === 'V'">
         <ion-col class="ion-no-padding">
           <div class="cssBtns">
-            <ion-button class="tajawal-Boldd cssBtn2" routerLink="/vendeur-demandedetail">تفاصيل الطلبية</ion-button>
+            <ion-button class="tajawal-Boldd cssBtn2" [routerLink]="['/vendeur-demandedetail',{code:d.codecommande, link}]">تفاصيل الطلبية</ion-button>
           </div>
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <ion-row >
         <ion-col class="ion-no-padding">
           <div class="cssBtns">
-            <ion-button class="tajawal-Boldd cssBtn3" routerLink="/vendeur-demandehistorique">حصيلة الطلبيات السابقة
+            <ion-button class="tajawal-Boldd cssBtn3" [routerLink]="['/consommateur-demandehistorique', {id:d.idConsommateur}]">حصيلة الطلبيات السابقة
             </ion-button>
           </div>
         </ion-col>

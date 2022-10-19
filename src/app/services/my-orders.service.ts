@@ -11,39 +11,68 @@ export class MyOrdersService {
   Url = environment.url+"/orders";
   cart_quantity = new BehaviorSubject(0)
   product_quantity = new BehaviorSubject(0)
-  constructor(public http: HttpClient) { }
+  delivery_type = new BehaviorSubject('standard')
+  
 
-  myCart = [];
+  myCart = new BehaviorSubject([])
+  constructor(public http: HttpClient) {
+    this.myCart.subscribe((data)=>{
+      console.log('myCart changed ...');
+      
+      let special = ''
+      for (let i = 0; i<data.length; i++){
+        let product = data[i]
+        if (product.special) {
+          special = 'special'
+        }
+      }
+      if (special){
+        this.delivery_type.next('special')
+      }else{
+        this.delivery_type.next('standard')
+      }
+    })
+   }
+
+  
   calculate_quantity(){
     let qte = 0
-    for (let i =0; i<this.myCart.length; i++){
-      qte = qte + this.myCart[i].quantite
+    for (let i =0; i<this.myCart.value.length; i++){
+      qte = qte + this.myCart.value[i].quantite
     }
-    // this.cart_quantity.next(qte)
-    this.cart_quantity.next(this.myCart.length)
+    this.cart_quantity.next(this.myCart.value.length)
 
   }
   get_product_quantity(productID){
     let qte = 0
-    for (let i =0; i<this.myCart.length; i++){
-      if (this.myCart[i].id == productID) qte = this.myCart[i].quantite
+    for (let i =0; i<this.myCart.value.length; i++){
+      if (this.myCart.value[i].id == productID) qte = this.myCart.value[i].quantite
     }
     return qte
   }
   addProductToOrder(product) {
-    this.myCart.push(product);
+    let data = this.myCart.value
+    data.push(product)
+
+    this.myCart.next(data);
     this.calculate_quantity()
   }
   removeProductFromOrder(indice) {
-    this.myCart.splice(indice, 1);
+    let data = this.myCart.value
+    data.splice(indice, 1);
+    this.myCart.next(data)
     this.calculate_quantity()
   }
   increaseOrderQuantity(indice){
-    this.myCart[indice].quantite = this.myCart[indice].quantite + 1
+    let data = this.myCart.value
+    data[indice].quantite =data[indice].quantite + 1
+    this.myCart.next(data)
     this.calculate_quantity()
   }
   decreaseOrderQuantity(indice){
-    this.myCart[indice].quantite = this.myCart[indice].quantite - 1
+    let data = this.myCart.value
+    data[indice].quantite =data[indice].quantite - 1
+    this.myCart.next(data)
     this.calculate_quantity()
   }
 

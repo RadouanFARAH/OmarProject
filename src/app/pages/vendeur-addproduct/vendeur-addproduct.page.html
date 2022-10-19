@@ -5,7 +5,7 @@
       <span class="cssBtnHeaderLeft" (click)="goBack()">
         <fa-icon icon="arrow-left"></fa-icon>
       </span>
-      إضافة منتج
+      {{product?'تحديث منتج':'إضافة منتج'}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -18,7 +18,7 @@
 
       <ion-row *ngIf="role=='R'">
         <ion-col class="ion-no-padding">
-          <div>
+          <div *ngIf="!product">
             <ion-label class="cssLabel tajawal-Bold">البائعين</ion-label>
             <ion-select multiple="true" placeholder="إختر البائع" class="cssInput tajawal-Medium"
               formControlName="lvendeurs" okText="OK" cancelText="Annuler">
@@ -29,7 +29,7 @@
       </ion-row>
       <ion-row *ngIf="role=='D'">
         <ion-col class="ion-no-padding">
-          <div>
+          <div *ngIf="!product">
             <ion-label class="cssLabel tajawal-Bold">المسؤولين</ion-label>
             <ion-select multiple="true" placeholder="إختر المسؤول" class="cssInput tajawal-Medium"
               formControlName="lresponsables" okText="OK" cancelText="Annuler">
@@ -100,8 +100,57 @@
             </ion-textarea>
           </div>
         </ion-col>
-      </ion-row>
 
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <div>
+            <ion-label class="cssLabel tajawal-Bold">الكمية (منتج) </ion-label>
+            <ion-input type="number" (keypress)="preventCaracters($event)" min="0" placeholder="ضع الكمية المنتوج"
+              class="cssInput tajawal-Medium" formControlName="quantity">
+            </ion-input>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <ion-list>
+            <ion-radio-group formControlName="quantity_type">
+              <ion-list-header>
+                <ion-label>نوع الكمية في الطلبية</ion-label>
+              </ion-list-header>
+
+              <ion-item>
+                <ion-label>غير محدودة</ion-label>
+                <ion-radio slot="start" [value]="false"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>محدودة</ion-label>
+                <ion-radio slot="start" [value]="true"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-list>
+
+          <!-- <div>
+            <ion-label class="cssLabel tajawal-Bold">نوع الكمية في الطلبية</ion-label>
+            <ion-select multiple placeholder="إختر النوع" class="cssInput tajawal-Medium"
+              formControlName="quantity_type" okText="OK" cancelText="Annuler">
+              <ion-select-option value="0">غير محدودة</ion-select-option>
+              <ion-select-option value="1">منتتج واحد لكل طلبية</ion-select-option>
+            </ion-select>
+          </div> -->
+        </ion-col>
+      </ion-row>
+      <ion-row >
+        <ion-col class="ion-no-padding">
+          <div *ngIf="chosen_quantity_type">
+            <ion-label class="cssLabel tajawal-Bold">حدد الكمية التي لا تتعدى الطلبية الواحدة</ion-label>
+            <ion-input (keypress)="preventCaracters($event)" type="number" placeholder="حدد الكمية التي لا تتعدى الطلبية الواحدة" class="cssInput tajawal-Medium"
+              formControlName="quantity_type_value">
+            </ion-input>
+          </div>
+        </ion-col>
+      </ion-row>
       <ion-row>
         <ion-col class="ion-no-padding">
           <div>
@@ -112,12 +161,12 @@
           </div>
         </ion-col>
       </ion-row>
-      <div class="btnToggle"  style="margin-left: 12px;
+      <div class="btnToggle" style="margin-left: 12px;
       margin-right: 12px;">
         <p style="font-size: 0.8rem;">{{special?'':'لن'}} يعرض في عروض اليوم</p>
         <ion-toggle [checked]="special" (ionChange)="toggelspecial()"></ion-toggle>
       </div>
-      
+
       <ion-row *ngIf="special">
         <ion-col class="ion-no-padding">
           <div>
@@ -128,21 +177,19 @@
           </div>
         </ion-col>
       </ion-row>
-
       <!-- images -->
       <ion-row style="margin-left: 12px;
       margin-right: 12px;">
-
         <label class="fileLabel cssLabel tajawal-Bold">الصورة الأمامية
           <input id="file_input" type="file" (change)="onChange($event)" accept=".jpg, .jpeg, .png" class="file">
           <div class="cssImgages">
             <div class="cssbtnImg">
-              <img *ngIf="imageURL" [src]="imageURL"> 
+              <img *ngIf="imageURL" [src]="imageURL">
               <span *ngIf="!imageURL">
                 <fa-icon style="color: #f0344c;" icon="camera"></fa-icon>
               </span>
             </div>
-            <div *ngIf="imageURL" (click)="deleteImg('P')" class="cssbtnImg2"> 
+            <div *ngIf="imageURL" (click)="deleteImg('P')" class="cssbtnImg2">
               تغيير
             </div>
           </div>
@@ -154,37 +201,73 @@
           <input multiple type="file" (change)="onChangeM($event)" accept=".jpg, .jpeg, .png" class="file">
           <div class="cssImgages">
             <div class="cssbtnImg clr">
-              <!-- <img src="../../../assets/images/add.png" alt="@youb"> -->
-              <span >
+              <!-- <img src="../../../assets/images/add.png" alt="error"> -->
+              <span>
                 <fa-icon style="color: #f0344c;" icon="plus-circle"></fa-icon>
               </span>
             </div>
           </div>
         </label>
-        <div style="display: contents;" *ngIf="imageURLs.length>0">
-          <label *ngFor="let img of imageURLs; let i = index" class="fileLabelB cssLabel tajawal-Bold"> صورة رقم {{i+1}}
+
+        <div style="display: contents;" *ngIf="imageURLs2.length>0">
+
+
+          <label *ngFor="let img of imageURLs2; let i = index" class="fileLabelB cssLabel tajawal-Bold">
             <div style="width: 100px; height: 100px;">
               <div class="cssImgages">
                 <div class="cssbtnImg">
                   <img [src]="img">
                 </div>
-                <div (click)="deleteImg(i)" class="cssbtnImg2"> 
+                <div class="cssbtnImg2">
+                  <ion-checkbox (ionChange)="deleteImg2(img)" color="primary"></ion-checkbox>
                   حذف
                 </div>
               </div>
             </div>
           </label>
         </div>
+
+
+
+        <div style="display: contents;" *ngIf="imageURLs.length>0">
+
+
+          <label *ngFor="let img of imageURLs; let i = index" class="fileLabelB cssLabel tajawal-Bold">
+            <div style="width: 100px; height: 100px;">
+              <div class="cssImgages">
+                <div class="cssbtnImg">
+                  <img [src]="img">
+                </div>
+                <div (click)="deleteImg(i)" class="cssbtnImg22">
+                  حذف
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+
       </ion-row>
 
       <!-- UPLOAD button -->
       <ion-row>
         <ion-col>
           <div style="margin: 16px 0px;">
-            <ion-button [disabled]="disabled || dataForm.invalid" expand="block" class="tajawal-Bold" (click)="showAlert()">
-              نشر المنتج
+            <ion-button [disabled]="dataForm.invalid" expand="block" class="tajawal-Bold" (click)="showAlert(null)">
+              {{product?'تحديث المنتج':'نشر المنتج'}}
+
               <ion-spinner style="color:#ffffff; margin-right: 10px;" *ngIf="spinner"></ion-spinner>
-            
+
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="product">
+        <ion-col>
+          <div style="margin: 16px 0px;">
+            <ion-button [disabled]="dataForm.invalid" expand="block" class="tajawal-Bold" (click)="showAlert(product)">
+              حذف المنتج
+              <ion-spinner style="color:#ffffff; margin-right: 10px;" *ngIf="spinner2"></ion-spinner>
+
             </ion-button>
           </div>
         </ion-col>
@@ -197,7 +280,7 @@
   <div class="alerte" *ngIf="showSuccessAlerte">
     <div class="box2">
       <div class="successImg">
-        <img src="../../../assets/images/successAlert1.gif" alt="@youb" draggable="false">
+        <img src="../../../assets/images/successAlert1.gif" alt="error" draggable="false">
       </div>
       <div class="message">
         <p class="message_content tajawal-Medium">
@@ -207,10 +290,23 @@
     </div>
   </div>
 
+  <div class="alerte" *ngIf="showSuccessAlerte2">
+    <div class="box2">
+      <div class="successImg">
+        <img src="../../../assets/images/successAlert1.gif" alt="error" draggable="false">
+      </div>
+      <div class="message">
+        <p class="message_content tajawal-Medium">
+          عملية حذف المنتج قد تمت بنجاح
+        </p>
+      </div>
+    </div>
+  </div>
+
   <div class="alerte" *ngIf="showErrorAlerte">
     <div class="box2">
       <div class="successImg">
-        <img src="../../../assets/images/errorAlert1.gif" alt="@youb" draggable="false">
+        <img src="../../../assets/images/errorAlert1.gif" alt="error" draggable="false">
       </div>
       <div class="message">
         <p id="koho" class="message_content tajawal-Medium">

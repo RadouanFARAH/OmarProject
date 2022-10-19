@@ -49,8 +49,7 @@ ion-col {
     justify-content: center;
     cursor: pointer;
 }
-
-.cssbtnImg2 {
+.cssbtnImg22 {
     width: 90px;
     background: #f0344c;
     border-radius: 10px;
@@ -60,9 +59,20 @@ ion-col {
     justify-content: center;
     cursor: pointer;
 }
+
+.cssbtnImg2 {
+    // width: 90px;
+    // background: #f0344c;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
 .cssbtnImg fa-icon {
     font-size: 36px;
-    color: #fff;
+    color: rgba(212, 16, 16, 0.473);
 }
 
 .cssImg {
@@ -150,4 +160,5 @@ ion-button {
 .fileLabelB {
     position: relative;
     text-align: center;
+    margin: 15px;
 }

@@ -54,7 +54,7 @@
               </div>
               <div class="cssCount">
                 <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div>
-                <div class="cssValue"><span>{{d.point_v * d.quantite}}</span><span class="tajawal-Medium">نقطة</span>
+                <div class="cssValue"><span style="color: rgb(206, 48, 48);">{{d.point_v * d.quantite}}</span><span class="tajawal-Medium">نقطة</span>
                 </div>
                 <div class="cssValue"><span>{{(d.prixfinal * d.quantite).toFixed(2)}}</span><span
                     class="tajawal-Medium">درهم</span></div>
@@ -160,8 +160,8 @@
               </div>
               <div class="cssCount">
                 <!-- <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div> -->
-                <div class="cssValue"><span>{{d.point_v}}</span><span class="tajawal-Medium">نقطة</span></div>
-                <div class="cssValue"><span>{{d.prixfinal}}</span><span class="tajawal-Medium">درهم</span></div>
+                <div class="cssValue"><span  style="color: rgb(206, 48, 48);">{{d.point_v}}</span><span class="tajawal-Medium">نقطة</span></div>
+                <div class="cssValue"><span>{{(d.prixfinal).toFixed(2)}}</span><span class="tajawal-Medium">درهم</span></div>
               </div>
             </div>
           </ion-col>
@@ -210,28 +210,28 @@
               <div class="cssTitleCard tajawal-Boldd">الهدف</div>
 
               <div>
-                <!-- <div class="cssRow">
+                <div class="cssRow" *ngIf="points_goal">
                   <div class="cssLibel tajawal-Medium">النقط</div>
                   <div class="cssBar">
-                    <span class="cssEnd">60</span>
+                    <span class="cssEnd">{{points_goal}}</span>
                     <span class="cssStart">{{pointtotal}}</span>
                     <div class="progress">
                       <div class="progress-bar cssColorBar" role="progressbar"
-                        [ngStyle]="{'width.%': ((pointtotal/60)*100).toFixed(0)}" aria-valuemin="0" aria-valuemax="100">
-                        {{((pointtotal/60)*100).toFixed(0)}}%</div>
+                        [ngStyle]="{'width.%': ((pointtotal/points_goal)*100).toFixed(0)}" aria-valuemin="0" aria-valuemax="100">
+                        {{((pointtotal/points_goal)*100).toFixed(0)}}%</div>
                     </div>
                   </div>
-                </div> -->
+                </div>
 
-                <div class="cssRow">
+                <div class="cssRow" *ngIf="orders_goal">
                   <div class="cssLibel tajawal-Medium">الفاتورات</div>
                   <div class="cssBar">
-                    <span class="cssEnd">{{goal}}</span>
+                    <span class="cssEnd">{{orders_goal}}</span>
                     <span class="cssStart">{{orders}}</span>
                     <div class="progress">
                       <div class="progress-bar cssColorBar" role="progressbar"
-                        [ngStyle]="{'width.%': (orders/goal)*100}" aria-valuemin="0" aria-valuemax="100">
-                        {{((orders/goal)*100).toFixed(0)}}%</div>
+                        [ngStyle]="{'width.%': (orders/orders_goal)*100}" aria-valuemin="0" aria-valuemax="100">
+                        {{((orders/orders_goal)*100).toFixed(0)}}%</div>
                     </div>
                   </div>
                 </div>
@@ -267,7 +267,7 @@
               </div>
               <div class="cssCount">
                 <!-- <div class="cssValue"><span>{{d.quantite}}</span><span class="tajawal-Medium">وحدة</span></div> -->
-                <div class="cssValue"><span>{{d.point_v?d.point_v:0}}</span><span class="tajawal-Medium">نقطة</span></div>
+                <div class="cssValue"><span  style="color: rgb(206, 48, 48);">{{d.point_v?d.point_v:0}}</span><span class="tajawal-Medium">نقطة</span></div>
                 <div class="cssValue"><span>{{d.prixfinal}}</span><span class="tajawal-Medium">درهم</span></div>
               </div>
             </div>

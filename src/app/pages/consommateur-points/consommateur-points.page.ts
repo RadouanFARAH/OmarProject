@@ -22,8 +22,7 @@ export class ConsommateurPointsPage implements OnInit {
     this.navCtrl.back();
   }
   getMyOrders() {
-    this.paramServices.getHistoryOrdersConso().subscribe(result => {
-      // console.log("My Orders____ : ", result);
+    this.paramServices.getHistoryOrdersConso({id:null}).subscribe(result => {
       this.data = result;
       this.data.forEach(d => {
         d.datecommande = (d.datecommande).slice(0, 10);

@@ -4,6 +4,7 @@
     display: block;
     margin: 0px auto;
     margin-top: 10px;
+    margin-bottom: 14px;
 }
 .marginTop{
     margin-top: 20px;
@@ -92,5 +93,7 @@ ion-card-header{
 }
 .link{
     color: aliceblue;
-    
+    margin-top: 20px !important;
+    font-size: 14px;
+    text-align: center;
 }

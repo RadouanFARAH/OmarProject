@@ -14,7 +14,7 @@
       </div>
 
       <ion-list>
-        <ion-item routerLink="consommateur-demandehistorique" *ngIf="role=='C'">
+        <ion-item [routerLink]="['consommateur-demandehistorique']" *ngIf="role=='C'">
           <span class="cssIconMenu">
             <fa-icon icon="clipboard-list"></fa-icon>
           </span>
@@ -35,7 +35,7 @@
       </ion-list>
       <div class="cssVersion">
         <div>
-          <img src="../../../assets/images/logo/logo4.png" alt="@youb_logo">
+          <img src="../../../assets/images/logo/logo4.png" alt="error_logo">
         </div>
         <div>
           <span class="cssV">Version 1.0.0</span>
@@ -105,7 +105,7 @@
       </ion-list>
       <div class="cssVersion">
         <div>
-          <img src="../../../assets/images/logo/logo4.png" alt="@youb_logo">
+          <img src="../../../assets/images/logo/logo4.png" alt="error_logo">
         </div>
         <div>
           <span class="cssV">Version 1.0.0</span>
@@ -172,7 +172,7 @@
 
       <div class="cssVersion">
         <div>
-          <img src="../../../assets/images/logo/logo4.png" alt="@youb_logo">
+          <img src="../../../assets/images/logo/logo4.png" alt="error_logo">
         </div>
         <div>
           <span class="cssV">Version 1.0.0</span>
@@ -209,7 +209,12 @@
           </span>
           <ion-label class="almarai-bold cssItemMenu">إضافة مسؤول جديد</ion-label>
         </ion-item>
-
+        <ion-item routerLink="/vendeur-my-product">
+          <span class="cssIconMenu">
+            <fa-icon icon="store"></fa-icon>
+          </span>
+          <ion-label class="almarai-bold cssItemMenu">قائمة المنتوجات</ion-label>
+        </ion-item>
         <ion-item routerLink="/responsable-settings" *ngIf="role=='D'">
           <span class="cssIconMenu">
             <fa-icon icon="chart-pie"></fa-icon>
@@ -226,7 +231,7 @@
 
       <div class="cssVersion">
         <div>
-          <img src="../../../assets/images/logo/logo4.png" alt="@youb_logo">
+          <img src="../../../assets/images/logo/logo4.png" alt="error_logo">
         </div>
         <div>
           <span class="cssV">Version 1.0.0</span>

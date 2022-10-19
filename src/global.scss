@@ -32,14 +32,20 @@
 
 // 1---- Palette de couleur
 .bgInterface1 {
-    --ion-background-color: linear-gradient(#f0344c, #b41117) !important;
-}
-.bgInterface2 {
-    --ion-background-color: #fafafa !important;
+    // --ion-background-color: linear-gradient(#f0344c, #b41117) !important;
+    --ion-background-color: #fe2400 !important;
 }
 
+.bgInterface2 {
+    --ion-background-color: #fefefe !important;
+}
+// .bgInterface2 {
+//     --ion-background-color: #fafafa !important;
+// }
+
 .bgheader {
-    --ion-background-color: #f0344c !important;
+    --ion-background-color: #fe2400 !important;
+    // --ion-background-color: #f0344c !important;
 }
 
 .color1 {
@@ -223,7 +229,7 @@ ion-badge {
 
 .successtoastclass {
     --color: #ffffff;
-    --border-radius: 30px 0px 30px 30px;;
+    --border-radius: 30px 0px 30px 30px;
     --background: #46df46;
     --button-color: #ffffff;
     --width: 60%;
@@ -246,7 +252,7 @@ ion-badge {
 }
 .failedtoastclass {
     --color: #ffffff;
-    --border-radius: 30px 0px 30px 30px;;
+    --border-radius: 30px 0px 30px 30px;
     --background: #d62d2d;
     --button-color: #ffffff;
     --width: 60%;
@@ -275,84 +281,95 @@ ion-badge {
     60%,
     80%,
     to {
-      -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     }
-  
+
     0% {
-      opacity: 0;
-      -webkit-transform: scale3d(0.3, 0.3, 0.3);
-      transform: scale3d(0.3, 0.3, 0.3);
+        opacity: 0;
+        -webkit-transform: scale3d(0.3, 0.3, 0.3);
+        transform: scale3d(0.3, 0.3, 0.3);
     }
-  
+
     20% {
-      -webkit-transform: scale3d(1.1, 1.1, 1.1);
-      transform: scale3d(1.1, 1.1, 1.1);
+        -webkit-transform: scale3d(1.1, 1.1, 1.1);
+        transform: scale3d(1.1, 1.1, 1.1);
     }
-  
+
     40% {
-      -webkit-transform: scale3d(0.9, 0.9, 0.9);
-      transform: scale3d(0.9, 0.9, 0.9);
+        -webkit-transform: scale3d(0.9, 0.9, 0.9);
+        transform: scale3d(0.9, 0.9, 0.9);
     }
-  
+
     60% {
-      opacity: 1;
-      -webkit-transform: scale3d(1.03, 1.03, 1.03);
-      transform: scale3d(1.03, 1.03, 1.03);
+        opacity: 1;
+        -webkit-transform: scale3d(1.03, 1.03, 1.03);
+        transform: scale3d(1.03, 1.03, 1.03);
     }
-  
+
     80% {
-      -webkit-transform: scale3d(0.97, 0.97, 0.97);
-      transform: scale3d(0.97, 0.97, 0.97);
+        -webkit-transform: scale3d(0.97, 0.97, 0.97);
+        transform: scale3d(0.97, 0.97, 0.97);
     }
-  
+
     to {
-      opacity: 1;
-      -webkit-transform: scale3d(1, 1, 1);
-      transform: scale3d(1, 1, 1);
+        opacity: 1;
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
     }
-  }
-  @keyframes bounceIn {
+}
+@keyframes bounceIn {
     from,
     20%,
     40%,
     60%,
     80%,
     to {
-      -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     }
-  
+
     0% {
-      opacity: 0;
-      -webkit-transform: scale3d(0.3, 0.3, 0.3);
-      transform: scale3d(0.3, 0.3, 0.3);
+        opacity: 0;
+        -webkit-transform: scale3d(0.3, 0.3, 0.3);
+        transform: scale3d(0.3, 0.3, 0.3);
     }
-  
+
     20% {
-      -webkit-transform: scale3d(1.1, 1.1, 1.1);
-      transform: scale3d(1.1, 1.1, 1.1);
+        -webkit-transform: scale3d(1.1, 1.1, 1.1);
+        transform: scale3d(1.1, 1.1, 1.1);
     }
-  
+
     40% {
-      -webkit-transform: scale3d(0.9, 0.9, 0.9);
-      transform: scale3d(0.9, 0.9, 0.9);
+        -webkit-transform: scale3d(0.9, 0.9, 0.9);
+        transform: scale3d(0.9, 0.9, 0.9);
     }
-  
+
     60% {
-      opacity: 1;
-      -webkit-transform: scale3d(1.03, 1.03, 1.03);
-      transform: scale3d(1.03, 1.03, 1.03);
+        opacity: 1;
+        -webkit-transform: scale3d(1.03, 1.03, 1.03);
+        transform: scale3d(1.03, 1.03, 1.03);
     }
-  
+
     80% {
-      -webkit-transform: scale3d(0.97, 0.97, 0.97);
-      transform: scale3d(0.97, 0.97, 0.97);
+        -webkit-transform: scale3d(0.97, 0.97, 0.97);
+        transform: scale3d(0.97, 0.97, 0.97);
     }
-  
+
     to {
-      opacity: 1;
-      -webkit-transform: scale3d(1, 1, 1);
-      transform: scale3d(1, 1, 1);
+        opacity: 1;
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
     }
-  }
+}
+
+.threeDots {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.grided_in_half{
+    display: grid;
+    grid-template-columns: 60% 40%;
+}

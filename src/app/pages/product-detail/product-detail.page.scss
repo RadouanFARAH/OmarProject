@@ -95,7 +95,7 @@ ion-button{
 }
 .cssCard .reduction {
     color: #ff4747;
-    background-color: #fff1f1;
+    background-color: #ffffff;
     padding: 5px;
     font-size: 12;
 }
@@ -305,4 +305,11 @@ ion-button{
         font-size: 13px;
         --border-radius: 4px !important;
     }
+}
+
+.grey_back{
+    background: #c0bebe !important;
+}
+.grey{
+    background: #ff4747 !important;
 }

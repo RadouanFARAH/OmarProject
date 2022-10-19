@@ -23,7 +23,8 @@ export class VendeurStatistiqueVentePage implements OnInit {
   arrdays: any = [];
   productIDs: any[] = [];
   spinner: boolean;
-  goal: any;
+  points_goal: any;
+  orders_goal: any;
   constructor(private userService: UserService, private stats: VendeurStatisticsService, private storage: Storage, private navCtrl: NavController) {
     this.storage.get('role').then((role) => {
       console.log(role);
@@ -39,7 +40,8 @@ export class VendeurStatistiqueVentePage implements OnInit {
   }
   getGoal() {
     this.userService.getGoal().subscribe((goal: any) => {
-      this.goal = goal
+      this.points_goal = goal.points
+      this.orders_goal = goal.orders
     })
   }
   ngOnInit() {
